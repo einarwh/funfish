@@ -6,10 +6,6 @@ type Picture = (Rectangle -> Unit)
 
 // 3A - 43:14 coord-map
 
-// 3A - ?
-let rotate (degrees : int) (p : Picture) : Picture =
-  p
-
 // 3A - 54:25 (Aka rotate90 | rot)
 // p(a + b, c, -b)   
 let turn (p : Picture) : Picture = 
