@@ -98,6 +98,9 @@ let createBezierCurvePicture (width : int) (height : int) (filename : string) (c
       curves |> List.iter drawCurve
       bitmap.Save(filename, Imaging.ImageFormat.Png)
 
+let blank : Picture = 
+  fun rect -> ()
+
 let createSegmentPicture (width : int) (height : int) (filename : string) (segments : Segment list) = 
   printfn "createSegmentPicture"
   fun rect -> 
@@ -128,6 +131,8 @@ let createSegmentPicture (width : int) (height : int) (filename : string) (segme
       printfn "hm %d" segments.Length
       segments |> List.iter drawSegment
       bitmap.Save(filename, Imaging.ImageFormat.Png)
+
+  
 
 (*  
 Bitmap flag = new Bitmap(200, 100);

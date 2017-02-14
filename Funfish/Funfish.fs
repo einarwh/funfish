@@ -176,10 +176,26 @@ let main argv =
     let u = over u1 u2
 
     let v = t |> turn |> cycle
-        
-    rect |> (quartet v v v v |> turn)
 
+    let side1 = quartet blank blank (t |> turn) t
+    let side2 = quartet side1 side1 (t |> turn) t 
 
+    let corner1 = quartet blank blank blank u 
+    let corner2 = quartet corner1 side1 (side1 |> turn) u
+
+    let squarelimit2 = //p q r s t u v w x
+      let p = corner2
+      let q = side2
+      let r = corner2 |> turn |> turn |> turn
+      let s = side2 |> turn
+      let t = u
+      let u = side2 |> turn |> turn |> turn
+      let v = corner2 |> turn
+      let w = side2 |> turn |> turn
+      let x = corner2 |> turn |> turn
+      nonet p q r s t u v w x
+
+    rect |> (squarelimit2 |> turn)
 
     //rect |> (over fish (turn fish))
 

@@ -23,17 +23,25 @@ let toss (p : Picture) : Picture =
   Rectangles.toss >> p
 
 // 3A - 53:05
-let beside (p1 : Picture) (p2: Picture) : Picture =
+let besideRatio (m : int) (n : int) (p1 : Picture) (p2: Picture) : Picture =
   fun rect ->
-    let r1, r2 = splitHorizontally 0.5 rect
+    let factor = float m / float (m + n)
+    let r1, r2 = splitHorizontally factor rect
+    p1 r1
+    p2 r2
+
+let beside (p1 : Picture) (p2: Picture) : Picture =
+  besideRatio 1 1 p1 p2
+
+let aboveRatio (m : int) (n : int) (p1 : Picture) (p2: Picture) : Picture =
+  fun rect ->
+    let factor = float m / float (m + n)
+    let r1, r2 = splitVertically factor rect
     p1 r1
     p2 r2
 
 let above (p1 : Picture) (p2: Picture) : Picture =
-  fun rect ->
-    let r1, r2 = splitVertically 0.5 rect
-    p1 r1
-    p2 r2
+  aboveRatio 1 1 p1 p2
 
 let over (p1 : Picture) (p2: Picture) : Picture = 
   fun rect ->
@@ -45,3 +53,7 @@ let quartet p q r s = above (beside p q) (beside r s)
 let cycle p = 
   quartet p (p |> turn) (p |> turn |> turn) (p |> turn |> turn |> turn)
 
+let nonet p q r s t u v w x = 
+  aboveRatio 1 2 (besideRatio 1 2 p (beside q r))
+                 (aboveRatio 1 1 (besideRatio 1 2 s (beside t u))
+                                 (besideRatio 1 2 v (beside w x)))
