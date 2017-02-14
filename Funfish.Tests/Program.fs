@@ -80,6 +80,14 @@ let tests =
         let result = turn rect
         let expected = createRectangle (createVector 3. 1.) (createVector 0. 3.) (createVector -2. 0.)
         Expect.equal result expected "turn rectangle 2"
+      testCase "flip rectangle 1" <| fun () ->
+        let o = createVector 4.0 2.5
+        let h = createVector 2.5 1.0
+        let v = createVector -1.5 3.5
+        let rect = createRectangle o h v
+        let result = flip rect
+        let expected = createRectangle (createVector 6.5 3.5) (createVector -2.5 -1.0) (createVector -1.5 3.5)
+        Expect.equal result expected "flip rectangle 1"
     ]
   ]
 

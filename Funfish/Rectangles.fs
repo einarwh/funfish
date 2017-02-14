@@ -19,14 +19,15 @@ let horizontal r = r.horizontal
 let vertical r = r.vertical
 
 // 3A - 54:25 (Aka rotate90 | rot)
-// p(a + b, c, -b)   
+// p(a + b, c, -b) => a -> a + b, b -> c, c -> -b   
 // p(o + h, v, -h)
 let turn (r : Rectangle) : Rectangle = 
   let o = origin r
   let h = horizontal r
   let v = vertical r
   createRectangle (add o h) v (scale -1. h)
-    
+
+// p(a + b, -b, c) => a -> a + b, b -> -b, c -> c 
 let flip (r : Rectangle) : Rectangle = 
   let o = origin r
   let h = horizontal r
