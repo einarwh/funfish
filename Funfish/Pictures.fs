@@ -27,37 +27,20 @@ let toss (p : Picture) : Picture =
   Rectangles.toss >> p
 
 // 3A - 53:05
-let beside' (p1 : Picture) (p2: Picture) (a : float) : Picture =
-  fun rect ->
-    let o = origin rect
-    let h = horizontal rect
-    let v = vertical rect
-    let r1 = createRectangle o (Vectors.scale a h) v
-    let r2 = createRectangle (Vectors.add o (Vectors.scale a h)) (Vectors.scale (1. - a) h) v
-    p1 r1
-    p2 r2
-
 let beside (p1 : Picture) (p2: Picture) (a : float) : Picture =
   fun rect ->
-    let r1 = rect |> scaleHorizontally a
-    let r2 = rect |> scaleHorizontally (1. - a) |> moveHorizontally a 
-    p1 r1
-    p2 r2
-
-let above' (p1 : Picture) (p2: Picture) (a : float) : Picture =
-  fun rect ->
-    let o = origin rect
-    let h = horizontal rect
-    let v = vertical rect
-    let r1 = createRectangle o h (Vectors.scale a v) 
-    let r2 = createRectangle (Vectors.add o (Vectors.scale a v)) h (Vectors.scale (1. - a) v)
+    let r1, r2 = splitHorizontally a rect
     p1 r1
     p2 r2
 
 let above (p1 : Picture) (p2: Picture) (a : float) : Picture =
   fun rect ->
-    let r1 = rect |> scaleVertically a 
-    let r2 = rect |> scaleVertically (1. - a) |> moveVertically a
+    let r1, r2 = splitVertically a rect
     p1 r1
     p2 r2
+
+let over (p1 : Picture) (p2: Picture) : Picture = 
+  fun rect ->
+    p1 rect
+    p2 rect
 
