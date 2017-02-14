@@ -128,6 +128,24 @@ let tests =
         let result = moveVertically 0.5 rect
         let expected = createRectangle (createVector 2.5 4.5) (createVector 4.0 2.0) (createVector 3.0 3.0)
         Expect.equal result expected "move rectangle vertically 1"
+      testCase "split rectangle horizontally 1" <| fun () ->
+        let o = createVector 1.0 3.0
+        let h = createVector 2.0 4.0
+        let v = createVector 2.0 2.5
+        let rect = createRectangle o h v
+        let result = splitHorizontally 0.75 rect
+        let expected1 = createRectangle (createVector 1.0 3.0) (createVector 1.5 3.0) (createVector 2.0 2.5)
+        let expected2 = createRectangle (createVector 2.5 6.0) (createVector 0.5 1.0) (createVector 2.0 2.5)
+        Expect.equal result (expected1, expected2) "split rectangle vertically 1"
+      testCase "split rectangle vertically 1" <| fun () ->
+        let o = createVector 1.0 3.0
+        let h = createVector 5.0 4.0
+        let v = createVector 4.0 8.0
+        let rect = createRectangle o h v
+        let result = splitVertically 0.75 rect
+        let expected1 = createRectangle (createVector 1.0 3.0) (createVector 5.0 4.0) (createVector 3.0 6.0)
+        let expected2 = createRectangle (createVector 4.0 9.0) (createVector 5.0 4.0) (createVector 1.0 2.0)
+        Expect.equal result (expected1, expected2) "split rectangle vertically 1"
     ]
   ]
 

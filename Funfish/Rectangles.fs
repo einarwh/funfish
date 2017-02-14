@@ -74,3 +74,14 @@ let moveVertically (offset : float) (r : Rectangle) : Rectangle =
   let h = horizontal r
   let v = vertical r
   createRectangle (add o (scale offset v)) h v
+
+let splitHorizontally (fraction : float) (r : Rectangle) : (Rectangle * Rectangle) = 
+  let left = r |> scaleHorizontally fraction
+  let right = r |> moveHorizontally fraction |> scaleHorizontally (1. - fraction)
+  (left, right)
+
+let splitVertically (fraction : float) (r : Rectangle) : (Rectangle * Rectangle) =
+  let bottom = r |> scaleVertically fraction
+  let top = r |> moveVertically fraction |> scaleVertically (1. - fraction) 
+  (bottom, top)
+ 
