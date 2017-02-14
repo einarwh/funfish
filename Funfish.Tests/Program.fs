@@ -88,6 +88,14 @@ let tests =
         let result = flip rect
         let expected = createRectangle (createVector 6.5 3.5) (createVector -2.5 -1.0) (createVector -1.5 3.5)
         Expect.equal result expected "flip rectangle 1"
+      testCase "toss rectangle 1" <| fun () ->
+        let o = createVector 0.0 0.0
+        let h = createVector 4.0 0.0
+        let v = createVector 0.0 4.0
+        let rect = createRectangle o h v
+        let result = toss rect
+        let expected = createRectangle (createVector 2.0 2.0) (createVector 2.0 2.0) (createVector -2.0 2.0)
+        Expect.equal result expected "toss rectangle 1"
     ]
   ]
 
