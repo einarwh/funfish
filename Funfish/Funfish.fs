@@ -174,8 +174,10 @@ let main argv =
     let u1 = over fish2 (fish2 |> turn) 
     let u2 = over (fish2 |> turn |> turn) (fish2 |> turn |> turn |> turn)
     let u = over u1 u2
+
+    let v = t |> turn |> cycle
         
-    rect |> u
+    rect |> (quartet v v v v |> turn)
 
 
 

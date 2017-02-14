@@ -2,6 +2,8 @@ module Drawing
 
 open System.Drawing
 
+//open NGraphics
+
 open Segments
 open Curves
 open Pictures
@@ -9,11 +11,16 @@ open Mapping
 open Vectors
 open Points
 
+//let size = new Size(800., 800.)
+//let canvas = Platforms.Current.CreateImageCanvas(size)
+//canvas.GetImage().Save
+  
+
 type BitmapPainter(width : int, height : int, filename : string) =
     
     let bitmap = new Bitmap(width, height)
     let g = Graphics.FromImage(bitmap)
-    
+
     member this.CreateBezierCurvePicture (curves : Curve list) = 
       fun rect ->
         let drawCurve (pt1 : Point) (pt2 : Point) (pt3 : Point) (pt4 : Point) =
