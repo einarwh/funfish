@@ -20,6 +20,7 @@ let vertical r = r.vertical
 
 // 3A - 54:25 (Aka rotate90 | rot)
 // p(a + b, c, -b)   
+// p(o + h, v, -h)
 let turn (r : Rectangle) : Rectangle = 
   let o = origin r
   let h = horizontal r
