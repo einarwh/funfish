@@ -170,7 +170,14 @@ let main argv =
     let fish2 = fish |> toss |> flip
     let fish3 = fish2 |> turn |> turn |> turn
     let t = over fish2 fish3 |> over fish
-    rect |> t
+
+    let u1 = over fish2 (fish2 |> turn) 
+    let u2 = over (fish2 |> turn |> turn) (fish2 |> turn |> turn |> turn)
+    let u = over u1 u2
+        
+    rect |> u
+
+
 
     //rect |> (over fish (turn fish))
 
