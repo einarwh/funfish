@@ -112,7 +112,22 @@ let tests =
         let result = scaleVertically 0.5 rect
         let expected = createRectangle (createVector 1.0 3.0) (createVector 4.0 2.0) (createVector 1.5 1.5)
         Expect.equal result expected "scale rectangle vertically 1"
-
+      testCase "move rectangle horizontally 1" <| fun () ->
+        let o = createVector 1.0 3.0
+        let h = createVector 4.0 2.0
+        let v = createVector 3.0 3.0
+        let rect = createRectangle o h v
+        let result = moveHorizontally 0.5 rect
+        let expected = createRectangle (createVector 3.0 4.0) (createVector 4.0 2.0) (createVector 3.0 3.0)
+        Expect.equal result expected "move rectangle horizontally 1"
+      testCase "move rectangle vertically 1" <| fun () ->
+        let o = createVector 1.0 3.0
+        let h = createVector 4.0 2.0
+        let v = createVector 3.0 3.0
+        let rect = createRectangle o h v
+        let result = moveVertically 0.5 rect
+        let expected = createRectangle (createVector 2.5 4.5) (createVector 4.0 2.0) (createVector 3.0 3.0)
+        Expect.equal result expected "move rectangle vertically 1"
     ]
   ]
 
