@@ -158,25 +158,32 @@ let main argv =
                   (createPoint 0.200 0.750)    
     ]
 
-    Drawing.createSegmentPicture 400 400 "segments.png" segments rect
-
-    //Drawing.createBezierCurvePicture 400 400 "curves.png" curves rect
+    // Drawing.createSegmentPicture 400 400 "segments.png" segments rect
 
     let bezierPicture1 = Drawing.createBezierCurvePicture 800 800 "curves1.png" curves
     let bezierPicture2 = Drawing.createBezierCurvePicture 800 800 "curves2.png" curves
     let bezierPicture3 = Drawing.createBezierCurvePicture 800 800 "curves3.png" curves
     let bezierPicture4 = Drawing.createBezierCurvePicture 800 800 "curves4.png" curves
 
-    rect |> bezierPicture1
+    use painter = new BitmapPainter(800, 800, "fish.png")
+    let fish = painter.CreateBezierCurvePicture curves
+    let fish2 = fish |> toss |> flip
+    let fish3 = fish2 |> turn |> turn |> turn
+    let t = over fish2 fish3 |> over fish
+    rect |> t
 
-    rect |> (bezierPicture2 |> turn)
+    //rect |> (over fish (turn fish))
 
-    rect |> (bezierPicture3 |> turn |> flip) 
+    //rect |> bezierPicture1
+
+    //rect |> (bezierPicture2 |> turn)
+
+    //rect |> (bezierPicture3 |> turn |> flip) 
 
     //rect |> (bezierPicture4 |> toss |> turn |> flip) 
 
-    let p = (bezierPicture4 |> toss) 
+    //let p = (bezierPicture4 |> toss) 
 
-    p rect
+    //p rect
 
     0 // return an integer exit code
