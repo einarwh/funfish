@@ -130,18 +130,18 @@ let main argv =
                   (createPoint 0.460 0.450)
                   (createPoint 0.425 0.430)
                   (createPoint 0.375 0.375)    
-      createCurve (createPoint 0.340 0.660) // C17 -
-                  (createPoint 0.400 0.675)
-                  (createPoint 0.430 0.675)
-                  (createPoint 0.475 0.650)    
-      createCurve (createPoint 0.350 0.580) // C18 -
-                  (createPoint 0.415 0.600)
-                  (createPoint 0.430 0.605)
-                  (createPoint 0.470 0.580)    
-      createCurve (createPoint 0.360 0.480) // C19 -
-                  (createPoint 0.415 0.520)
-                  (createPoint 0.430 0.530)
-                  (createPoint 0.478 0.510)    
+      createCurve (createPoint 0.320 0.702) // C17 -
+                  (createPoint 0.390 0.728) //
+                  (createPoint 0.440 0.728) //
+                  (createPoint 0.487 0.683) //    
+      createCurve (createPoint 0.344 0.600) // C18 -
+                  (createPoint 0.415 0.650) //
+                  (createPoint 0.435 0.650) //
+                  (createPoint 0.489 0.622) //    
+      createCurve (createPoint 0.353 0.496) // C19 -
+                  (createPoint 0.390 0.564) //
+                  (createPoint 0.410 0.568) //
+                  (createPoint 0.489 0.553) //   
       createCurve (createPoint 0.465 0.422) // C20 -
                   (createPoint 0.470 0.390)
                   (createPoint 0.480 0.385)
