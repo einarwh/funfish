@@ -1,4 +1,4 @@
-﻿open Expecto
+open Expecto
 
 open Vectors
 open Rectangles
