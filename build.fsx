@@ -5,38 +5,38 @@ open Fake
 
 // Directories
 let buildDir  = "./build/"
-let deployDir = "./deploy/"
+let testDir  = "./test/"
 
 
 // Filesets
-let appReferences  =
-    !! "/**/*.csproj"
-    ++ "/**/*.fsproj"
+let references  =
+    !! "/**/*.fsproj" -- "/**/*.Tests.fsproj"
+
+let testReferences  =
+    !! "/**/*.Tests.fsproj"
 
 // version info
 let version = "0.1"  // or retrieve from CI server
 
 // Targets
 Target "Clean" (fun _ ->
-    CleanDirs [buildDir; deployDir]
+    CleanDirs [buildDir; testDir]
 )
 
 Target "Build" (fun _ ->
-    // compile all projects below src/app/
-    MSBuildDebug buildDir "Build" appReferences
+    MSBuildDebug buildDir "Build" references
     |> Log "AppBuild-Output: "
 )
 
-Target "Deploy" (fun _ ->
-    !! (buildDir + "/**/*.*")
-    -- "*.zip"
-    |> Zip buildDir (deployDir + "ApplicationName." + version + ".zip")
+Target "BuildTests" (fun _ ->
+    MSBuildDebug testDir "Build" testReferences
+    |> Log "TestBuild-Output: "
 )
 
 // Build order
 "Clean"
   ==> "Build"
-  ==> "Deploy"
+  ==> "BuildTests"
 
 // start build
-RunTargetOrDefault "Build"
+RunTargetOrDefault "BuildTests"

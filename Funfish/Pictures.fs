@@ -30,8 +30,14 @@ let besideRatio (m : int) (n : int) (p1 : Picture) (p2: Picture) : Picture =
     p1 r1
     p2 r2
 
-let beside (p1 : Picture) (p2: Picture) : Picture =
+let beside' (p1 : Picture) (p2: Picture) : Picture =
   besideRatio 1 1 p1 p2
+
+let beside (p1 : Picture) (p2: Picture) : Picture =
+  fun rect ->
+    let r1, r2 = splitHorizontally 0.5 rect
+    p1 r1
+    p2 r2
 
 let aboveRatio (m : int) (n : int) (p1 : Picture) (p2: Picture) : Picture =
   fun rect ->
@@ -40,8 +46,14 @@ let aboveRatio (m : int) (n : int) (p1 : Picture) (p2: Picture) : Picture =
     p1 r1
     p2 r2
 
-let above (p1 : Picture) (p2: Picture) : Picture =
+let above' (p1 : Picture) (p2: Picture) : Picture =
   aboveRatio 1 1 p1 p2
+
+let above (p1 : Picture) (p2: Picture) : Picture =
+  fun rect ->
+    let r1, r2 = splitVertically 0.5 rect
+    p1 r1
+    p2 r2
 
 let over (p1 : Picture) (p2: Picture) : Picture = 
   fun rect ->
