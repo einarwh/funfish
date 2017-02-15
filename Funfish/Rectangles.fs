@@ -19,26 +19,36 @@ let horizontal r = r.horizontal
 let vertical r = r.vertical
 
 // 3A - 54:25 (Aka rotate90 | rot)
-// p(a + b, c, -b)   
+// p(a + b, c, -b) => a -> a + b, b -> c, c -> -b   
+// p(o + h, v, -h)
 let turn (r : Rectangle) : Rectangle = 
   let o = origin r
   let h = horizontal r
   let v = vertical r
   createRectangle (add o h) v (scale -1. h)
-    
+
+// p(a + b, -b, c) 
+// a <- a + b
+// b <- -b 
+// c <- c
 let flip (r : Rectangle) : Rectangle = 
   let o = origin r
   let h = horizontal r
   let v = vertical r
   createRectangle (add o h) (scale -1. h) v
  
+// p(a + (b + c) / 2, (b + c) / 2, (c − b) / 2)
+// a <- a + (b + c) / 2
+// b <- (b + c) / 2
+// c <- (c − b) / 2
 let toss (r : Rectangle) : Rectangle = 
   let o = origin r
   let h = horizontal r
   let v = vertical r
-  let o' = add o (add h v) // a + (b + c) | o + (h + v)
-  let h' = scale 0.5 (add h v) // (b + c) / 2 | (h + v) / 2
-  let v' = scale 0.5 (sub v h) // (c - b) / 2 | (v - h) / 2
+  let half vect = scale 0.5 vect
+  let o' = add o (add h v |> half) // a + (b + c) | o + (h + v)
+  let h' = add h v |> half // (b + c) / 2 | (h + v) / 2
+  let v' = sub v h |> half // (c - b) / 2 | (v - h) / 2
   createRectangle o' h' v'
 
 let scaleHorizontally (s : float) (r : Rectangle) : Rectangle = 
@@ -64,3 +74,14 @@ let moveVertically (offset : float) (r : Rectangle) : Rectangle =
   let h = horizontal r
   let v = vertical r
   createRectangle (add o (scale offset v)) h v
+
+let splitHorizontally (fraction : float) (r : Rectangle) : (Rectangle * Rectangle) = 
+  let left = r |> scaleHorizontally fraction
+  let right = r |> moveHorizontally fraction |> scaleHorizontally (1. - fraction)
+  (left, right)
+
+let splitVertically (fraction : float) (r : Rectangle) : (Rectangle * Rectangle) =
+  let bottom = r |> scaleVertically fraction
+  let top = r |> moveVertically fraction |> scaleVertically (1. - fraction) 
+  (bottom, top)
+ 

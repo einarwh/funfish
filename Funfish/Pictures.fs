@@ -6,10 +6,6 @@ type Picture = (Rectangle -> Unit)
 
 // 3A - 43:14 coord-map
 
-// 3A - ?
-let rotate (degrees : int) (p : Picture) : Picture =
-  p
-
 // 3A - 54:25 (Aka rotate90 | rot)
 // p(a + b, c, -b)   
 let turn (p : Picture) : Picture = 
@@ -27,37 +23,67 @@ let toss (p : Picture) : Picture =
   Rectangles.toss >> p
 
 // 3A - 53:05
-let beside' (p1 : Picture) (p2: Picture) (a : float) : Picture =
+let besideRatio (m : int) (n : int) (p1 : Picture) (p2: Picture) : Picture =
   fun rect ->
-    let o = origin rect
-    let h = horizontal rect
-    let v = vertical rect
-    let r1 = createRectangle o (Vectors.scale a h) v
-    let r2 = createRectangle (Vectors.add o (Vectors.scale a h)) (Vectors.scale (1. - a) h) v
+    let factor = float m / float (m + n)
+    let r1, r2 = splitHorizontally factor rect
     p1 r1
     p2 r2
 
-let beside (p1 : Picture) (p2: Picture) (a : float) : Picture =
+let beside (p1 : Picture) (p2: Picture) : Picture =
+  besideRatio 1 1 p1 p2
+
+let beside' (p1 : Picture) (p2: Picture) : Picture =
   fun rect ->
-    let r1 = rect |> scaleHorizontally a
-    let r2 = rect |> scaleHorizontally (1. - a) |> moveHorizontally a 
+    let r1, r2 = splitHorizontally 0.5 rect
     p1 r1
     p2 r2
 
-let above' (p1 : Picture) (p2: Picture) (a : float) : Picture =
+let belowRatio (m : int) (n : int) (p1 : Picture) (p2 : Picture) : Picture = 
   fun rect ->
-    let o = origin rect
-    let h = horizontal rect
-    let v = vertical rect
-    let r1 = createRectangle o h (Vectors.scale a v) 
-    let r2 = createRectangle (Vectors.add o (Vectors.scale a v)) h (Vectors.scale (1. - a) v)
+    // m is the proportion given to p1, placed below.
+    // n is the proportion given to p2, placed above.
+    let factor = float m / float (m + n)
+    let r1, r2 = splitVertically factor rect
+    p1 r2
+    p2 r1   
+
+let aboveRatio (m : int) (n : int) (p1 : Picture) (p2 : Picture) : Picture =
+  belowRatio n m p1 p2
+
+let above (p1 : Picture) (p2: Picture) : Picture =
+  aboveRatio 1 1 p1 p2
+
+let above' (p1 : Picture) (p2: Picture) : Picture =
+  fun rect ->
+    let r1, r2 = splitVertically 0.5 rect
     p1 r1
     p2 r2
 
-let above (p1 : Picture) (p2: Picture) (a : float) : Picture =
+let over (p1 : Picture) (p2: Picture) : Picture = 
   fun rect ->
-    let r1 = rect |> scaleVertically a 
-    let r2 = rect |> scaleVertically (1. - a) |> moveVertically a
-    p1 r1
-    p2 r2
+    p1 rect
+    p2 rect
 
+let quartet p q r s = above (beside p q) (beside r s)
+
+let cycle p = 
+  quartet p 
+          (p |> turn) 
+          (p |> turn |> turn) 
+          (p |> turn |> turn |> turn)
+
+let cycle' p = 
+  quartet p 
+          (p |> turn |> turn |> turn) 
+          (p |> turn) 
+          (p |> turn |> turn)
+
+
+let blank = 
+  fun rect -> ()
+
+let nonet p q r s t u v w x = 
+  aboveRatio 1 2 (besideRatio 1 2 p (beside q r))
+                 (aboveRatio 1 1 (besideRatio 1 2 s (beside t u))
+                                 (besideRatio 1 2 v (beside w x)))
