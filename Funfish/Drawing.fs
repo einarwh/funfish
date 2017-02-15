@@ -24,7 +24,7 @@ type BitmapPainter(width : int, height : int, filename : string) =
     member this.CreateBezierCurvePicture (curves : Curve list) = 
       fun rect ->
         let drawCurve (pt1 : Point) (pt2 : Point) (pt3 : Point) (pt4 : Point) =
-          let f it = it + 200. |> float32 
+          let f it = it + 100. |> float32 
           let x1 = xcoord pt1 |> f
           let y1 = ycoord pt1 |> f
           let x2 = xcoord pt2 |> f

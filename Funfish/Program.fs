@@ -18,8 +18,8 @@ open System.Drawing
 [<EntryPoint>]
 let main argv =
     let rect = createRectangle (createVector 0. 0.)
-                               (createVector 0. 400.)
-                               (createVector 400. 0.)
+                               (createVector 0. 600.)
+                               (createVector 600. 0.)
 
     let fsegs = 
       let pt1 =  (createPoint 0.30 0.20) 
