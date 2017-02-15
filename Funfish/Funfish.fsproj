@@ -54,7 +54,7 @@
     <Compile Include="Pictures.fs" />
     <Compile Include="Mapping.fs" />
     <Compile Include="Drawing.fs" />
-    <Compile Include="Funfish.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Choose>
