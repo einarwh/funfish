@@ -26,12 +26,51 @@ let main argv =
                                (createVector 0. 400.)
                                (createVector 400. 0.)
 
+    let fsegs = 
+      let pt1 =  (createPoint 0.30 0.20) 
+      let pt2 =  (createPoint 0.40 0.20)
+      let pt3 =  (createPoint 0.40 0.45)
+      let pt4 =  (createPoint 0.60 0.45)
+      let pt5 =  (createPoint 0.60 0.55)
+      let pt6 =  (createPoint 0.40 0.55)
+      let pt7 =  (createPoint 0.40 0.70)
+      let pt8 =  (createPoint 0.70 0.70)
+      let pt9 =  (createPoint 0.70 0.80)
+      let pt10 = (createPoint 0.30 0.80)
+      [ createSegment pt1 pt2
+        createSegment pt2 pt3
+        createSegment pt3 pt4
+        createSegment pt4 pt5
+        createSegment pt5 pt6
+        createSegment pt6 pt7
+        createSegment pt7 pt8
+        createSegment pt8 pt9
+        createSegment pt9 pt10
+        createSegment pt10 pt1 ]
+
+    let psegs = 
+      let pt1 =  (createPoint 0.30 0.20) 
+      let pt2 =  (createPoint 0.40 0.20)
+      let pt3 =  (createPoint 0.40 0.45)
+      let pt4 =  (createPoint 0.70 0.45)
+      let pt5 =  (createPoint 0.60 0.55)
+      let pt6 =  (createPoint 0.40 0.55)
+      let pt7 =  (createPoint 0.40 0.70)
+      let pt8 =  (createPoint 0.60 0.70)
+      let pt9 =  (createPoint 0.70 0.80)
+      let pt10 = (createPoint 0.30 0.80)
+      [ createSegment pt1 pt2
+        createSegment pt2 pt3
+        createSegment pt3 pt4
+        createSegment pt4 pt9
+        createSegment pt5 pt6
+        createSegment pt6 pt7
+        createSegment pt7 pt8
+        createSegment pt8 pt5
+        createSegment pt9 pt10
+        createSegment pt10 pt1 ]
+
     let curves = [
-      (*
-      createCurve (createPoint 0.010 0.040) 
-                  (createPoint 0.303 0.490)
-                  (createPoint 0.200 0.700)
-                  (createPoint 0.803 0.920)*)
       createCurve (createPoint 0.110 0.685) 
                   (createPoint 0.200 0.300)
                   (createPoint 0.400 0.150)
@@ -158,24 +197,37 @@ let main argv =
                   (createPoint 0.200 0.750)    
     ]
 
-    // Drawing.createSegmentPicture 400 400 "segments.png" segments rect
 
-    let bezierPicture1 = Drawing.createBezierCurvePicture 800 800 "curves1.png" curves
-    let bezierPicture2 = Drawing.createBezierCurvePicture 800 800 "curves2.png" curves
-    let bezierPicture3 = Drawing.createBezierCurvePicture 800 800 "curves3.png" curves
-    let bezierPicture4 = Drawing.createBezierCurvePicture 800 800 "curves4.png" curves
 
     use painter = new BitmapPainter(800, 800, "fish.png")
     let fish = painter.CreateBezierCurvePicture curves
+    let maket f = 
+      let fish2 = f |> toss |> flip
+      let fish3 = fish2 |> turn |> turn |> turn
+      let t = over fish2 fish3 |> over f
+      t
+
+    let segfault = painter.CreateSegmentPicture segments
+
     let fish2 = fish |> toss |> flip
     let fish3 = fish2 |> turn |> turn |> turn
     let t = over fish2 fish3 |> over fish
 
-    let u1 = over fish2 (fish2 |> turn) 
-    let u2 = over (fish2 |> turn |> turn) (fish2 |> turn |> turn |> turn)
-    let u = over u1 u2
+    let tify f = 
+      let fish2 = flip (toss f)
+      let fish3 = turn (turn (turn fish2))
+      over f (over fish2 fish3)
+      //over fish2 fish3 |> over f
 
-    let v = t |> turn |> cycle
+    let uify f = 
+      let fish2 = f |> toss |> flip
+      let u1 = over fish2 (fish2 |> turn) 
+      let u2 = over (fish2 |> turn |> turn) (fish2 |> turn |> turn |> turn)
+      over u1 u2
+
+    //let v = t |> turn |> cycle
+    //let v = t |> turn |> cycle
+    let u = fish |> uify
 
     let side1 = quartet blank blank (t |> turn) t
     let side2 = quartet side1 side1 (t |> turn) t 
@@ -188,27 +240,50 @@ let main argv =
       let q = side2
       let r = corner2 |> turn |> turn |> turn
       let s = side2 |> turn
-      let t = u
+      let t = fish |> uify
       let u = side2 |> turn |> turn |> turn
       let v = corner2 |> turn
       let w = side2 |> turn |> turn
       let x = corner2 |> turn |> turn
       nonet p q r s t u v w x
 
-    rect |> (squarelimit2 |> turn)
+    //use painter1 = new BitmapPainter(800, 800, "fish1.png")
+    //let fish1 = painter1.CreateBezierCurvePicture curves
 
-    //rect |> (over fish (turn fish))
+    //rect |> (t |> turn) 
+    //rect |> (u |> turn) 
+    //rect |> (quartet u u u u |> turn)
+    //rect |> (v |> turn)
+    //rect |> (side1 |> turn)
+    //rect |> (side2 |> turn)
+    //rect |> (corner1 |> turn)
+    //rect |> (corner2 |> turn)
+    //rect |> (fish |> turn |> cycle |> turn)
+    //rect |> (t |> cycle |> turn)
+    let v = fish |> tify |> turn |> cycle
+    rect |> (fish |> turn |> tify |> turn |> cycle |> turn)
+    
+    //rect |> (fish |> turn)
+    //rect |> (aboveRatio 1 2 fish (fish |> turn) |> turn)
+    //rect |> (besideRatio 1 2 fish (fish |> turn) |> turn)
+    //rect |> (squarelimit2 |> turn)
 
-    //rect |> bezierPicture1
+    use letterfPainter = new BitmapPainter(800, 800, "letterf.png")
+    let letterf' = letterfPainter.CreateSegmentPicture fsegs
 
-    //rect |> (bezierPicture2 |> turn)
+    rect |> (letterf' |> turn)
 
-    //rect |> (bezierPicture3 |> turn |> flip) 
+    use letterpPainter = new BitmapPainter(800, 800, "letterp.png")
+    let letterp' = letterpPainter.CreateSegmentPicture psegs
 
-    //rect |> (bezierPicture4 |> toss |> turn |> flip) 
+    rect |> (letterp' |> turn)
 
-    //let p = (bezierPicture4 |> toss) 
+    use letterPainter = new BitmapPainter(800, 800, "letter.png")
+    let letterf = letterPainter.CreateSegmentPicture fsegs
+    let letterp = letterPainter.CreateSegmentPicture psegs
 
-    //p rect
+    //rect |> (besideRatio 1 1 letterf letterp |> turn)
+    //rect |> (quartet letterf letterp (flip letterf) (flip letterp) |> turn)
+    rect |> (above (beside letterf letterf) letterf |> turn)
 
     0 // return an integer exit code
