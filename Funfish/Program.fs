@@ -17,11 +17,6 @@ open System.Drawing
 
 [<EntryPoint>]
 let main argv =
-    printfn "%A" argv
-    let segments = [ 
-        createSegment (createPoint 0.010 0.040) (createPoint 0.803 0.920)
-        createSegment (createPoint 0.239 0.737) (createPoint 0.380 0.860)
-        createSegment (createPoint 0.930 0.054) (createPoint 0.012 0.427) ]
     let rect = createRectangle (createVector 0. 0.)
                                (createVector 0. 400.)
                                (createVector 400. 0.)
@@ -197,8 +192,6 @@ let main argv =
                   (createPoint 0.200 0.750)    
     ]
 
-
-
     use painter = new BitmapPainter(800, 800, "fish.png")
     let fish = painter.CreateBezierCurvePicture curves
     let maket f = 
@@ -206,8 +199,6 @@ let main argv =
       let fish3 = fish2 |> turn |> turn |> turn
       let t = over fish2 fish3 |> over f
       t
-
-    let segfault = painter.CreateSegmentPicture segments
 
     let fish2 = fish |> toss |> flip
     let fish3 = fish2 |> turn |> turn |> turn
@@ -247,8 +238,10 @@ let main argv =
       let x = corner2 |> turn |> turn
       nonet p q r s t u v w x
 
-    //use painter1 = new BitmapPainter(800, 800, "fish1.png")
-    //let fish1 = painter1.CreateBezierCurvePicture curves
+    use painterLimit = new BitmapPainter(800, 800, "limit.png")
+    let limit = painterLimit.CreateBezierCurvePicture curves
+
+    rect |> (limit |> turn)
 
     //rect |> (t |> turn) 
     //rect |> (u |> turn) 
@@ -260,9 +253,10 @@ let main argv =
     //rect |> (corner2 |> turn)
     //rect |> (fish |> turn |> cycle |> turn)
     //rect |> (t |> cycle |> turn)
-    let v = fish |> tify |> turn |> cycle
-    rect |> (fish |> turn |> tify |> turn |> cycle |> turn)
-    
+    //let v = fish |> tify |> turn |> cycle'
+    //rect |> (v |> turn)
+    rect |> (squarelimit2 |> turn)
+
     //rect |> (fish |> turn)
     //rect |> (aboveRatio 1 2 fish (fish |> turn) |> turn)
     //rect |> (besideRatio 1 2 fish (fish |> turn) |> turn)

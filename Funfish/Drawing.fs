@@ -51,21 +51,21 @@ type BitmapPainter(width : int, height : int, filename : string) =
           let pt4' = pt4 |> toVector |> m |> toPoint
           //printfn "draw segment' (%f, %f) -> (%f, %f)" (xcoord pt1') (ycoord pt1') (xcoord pt2') (ycoord pt2')
           drawCurve pt1' pt2' pt3' pt4'
-        let o = origin rect
-        let h = horizontal rect
-        let h' = add o h
-        let v = vertical rect
-        let v' = add o v
-        let xo, yo = (x o, y o)
-        let xh, yh = (x h', y h')
-        let xv, yv = (x v', y v') 
-        let z = add o (add h v)
-        let xz, yz = (x z, y z)
-        let f it = it + 200. |> float32 
-        g.DrawLine(Pens.Pink, xo |> f, yo |> f, xh |> f, yh |> f) // o - h
-        g.DrawLine(Pens.Pink, xo |> f, yo |> f, xv |> f, yv |> f) // o - v
-        g.DrawLine(Pens.Pink, xz |> f, yz |> f, xh |> f, yh |> f) // z - h
-        g.DrawLine(Pens.Pink, xz |> f, yz |> f, xv |> f, yv |> f) // z - v
+        //let o = origin rect
+        //let h = horizontal rect
+        //let h' = add o h
+        //let v = vertical rect
+        //let v' = add o v
+        //let xo, yo = (x o, y o)
+        //let xh, yh = (x h', y h')
+        //let xv, yv = (x v', y v') 
+        //let z = add o (add h v)
+        //let xz, yz = (x z, y z)
+        //let f it = it + 200. |> float32 
+        //g.DrawLine(Pens.Pink, xo |> f, yo |> f, xh |> f, yh |> f) // o - h
+        //g.DrawLine(Pens.Pink, xo |> f, yo |> f, xv |> f, yv |> f) // o - v
+        //g.DrawLine(Pens.Pink, xz |> f, yz |> f, xh |> f, yh |> f) // z - h
+        //g.DrawLine(Pens.Pink, xz |> f, yz |> f, xv |> f, yv |> f) // z - v
         curves |> List.iter drawCurve
 
     member this.CreateSegmentPicture (segments : Segment list) = 

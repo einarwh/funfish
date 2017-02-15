@@ -73,6 +73,13 @@ let cycle p =
           (p |> turn |> turn) 
           (p |> turn |> turn |> turn)
 
+let cycle' p = 
+  quartet p 
+          (p |> turn |> turn |> turn) 
+          (p |> turn) 
+          (p |> turn |> turn)
+
+
 let blank = 
   fun rect -> ()
 
