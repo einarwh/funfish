@@ -295,6 +295,7 @@ let main argv =
     //rect |> (t |> cycle |> turn)
     //let v = fish |> tify |> turn |> cycle'
     //rect |> (v |> turn)
+    rect |> (fish |> turn) |> adjust |> svg "fish.svg"
     rect |> (squarelimit2 |> turn) |> adjust |> svg "limit.svg"
 
     //rect |> (fish |> turn)
