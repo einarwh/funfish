@@ -7,9 +7,6 @@ open NGraphics
 open Segments
 open Curves
 open Pictures
-open Mapping
-open Rectangles
-open Vectors
 open Points
 
 let paintSvg (width : int) (height: int) (filename : string) (drawables : Drawable list) = 

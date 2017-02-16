@@ -50,6 +50,7 @@
     <Compile Include="Vectors.fs" />
     <Compile Include="Segments.fs" />
     <Compile Include="Curves.fs" />
+    <Compile Include="Data.fs" />
     <Compile Include="Rectangles.fs" />
     <Compile Include="Pictures.fs" />
     <Compile Include="Mapping.fs" />

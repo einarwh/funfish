@@ -1,7 +1,5 @@
 module Drawing
 
-open System.IO
-
 open Segments
 open Curves
 open Pictures

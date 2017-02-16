@@ -1,14 +1,10 @@
 module Bitmaps
 
 open System.Drawing
-//open System.IO
 
 open Segments
 open Curves
 open Pictures
-open Mapping
-open Rectangles
-open Vectors
 open Points
 
 let paintPng (width : int) (height : int) (filename : string) (drawables : Drawable list) = 
