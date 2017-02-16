@@ -1,8 +1,12 @@
 module Pictures
 
+open Segments
+open Curves
 open Rectangles
 
-type Picture = (Rectangle -> Unit)
+type Drawable = Line of Segment | Bezier of Curve 
+
+type Picture = (Rectangle -> Drawable list)
 
 // 3A - 43:14 coord-map
 
@@ -27,8 +31,7 @@ let besideRatio (m : int) (n : int) (p1 : Picture) (p2: Picture) : Picture =
   fun rect ->
     let factor = float m / float (m + n)
     let r1, r2 = splitHorizontally factor rect
-    p1 r1
-    p2 r2
+    p1 r1 @ p2 r2
 
 let beside (p1 : Picture) (p2: Picture) : Picture =
   besideRatio 1 1 p1 p2
@@ -36,8 +39,7 @@ let beside (p1 : Picture) (p2: Picture) : Picture =
 let beside' (p1 : Picture) (p2: Picture) : Picture =
   fun rect ->
     let r1, r2 = splitHorizontally 0.5 rect
-    p1 r1
-    p2 r2
+    p1 r1 @ p2 r2
 
 let belowRatio (m : int) (n : int) (p1 : Picture) (p2 : Picture) : Picture = 
   fun rect ->
@@ -45,8 +47,7 @@ let belowRatio (m : int) (n : int) (p1 : Picture) (p2 : Picture) : Picture =
     // n is the proportion given to p2, placed above.
     let factor = float m / float (m + n)
     let r1, r2 = splitVertically factor rect
-    p1 r2
-    p2 r1   
+    p1 r2 @ p2 r1   
 
 let aboveRatio (m : int) (n : int) (p1 : Picture) (p2 : Picture) : Picture =
   belowRatio n m p1 p2
@@ -57,13 +58,11 @@ let above (p1 : Picture) (p2: Picture) : Picture =
 let above' (p1 : Picture) (p2: Picture) : Picture =
   fun rect ->
     let r1, r2 = splitVertically 0.5 rect
-    p1 r1
-    p2 r2
+    p1 r1 @ p2 r2
 
 let over (p1 : Picture) (p2: Picture) : Picture = 
   fun rect ->
-    p1 rect
-    p2 rect
+    p1 rect @ p2 rect
 
 let quartet p q r s = above (beside p q) (beside r s)
 
@@ -80,8 +79,8 @@ let cycle' p =
           (p |> turn |> turn)
 
 
-let blank = 
-  fun rect -> ()
+let blank : Picture = 
+  fun rect -> []
 
 let nonet p q r s t u v w x = 
   aboveRatio 1 2 (besideRatio 1 2 p (beside q r))
