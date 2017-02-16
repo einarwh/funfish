@@ -11,10 +11,10 @@ open Rectangles
 open Vectors
 open Points
 
-let paintBitmap (width : int) (height : int) (filename : string) (drawables : Drawable list) = 
+let paintPng (width : int) (height : int) (filename : string) (drawables : Drawable list) = 
     use bitmap = new Bitmap(width, height)
     let g = Graphics.FromImage(bitmap)
-    let f it = it + 200. |> float32
+    let f it = it |> float32
     let draw d =
       match d with
       | Line ls -> 

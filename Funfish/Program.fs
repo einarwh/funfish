@@ -238,11 +238,16 @@ let main argv =
       let t = over fish2 fish3 |> over f
       t
 
-    rect |> (fish |> turn) |> paintBitmap 800 800 "trol.png"
     let svg filename (size, drawables) = 
        match size with 
        | { width = w; height = h } ->
          drawables |> paintSvg (int w) (int h) filename
+
+    let png filename (size, drawables) = 
+       match size with 
+       | { width = w; height = h } ->
+         drawables |> paintPng (int w) (int h) filename
+
     rect |> (fish |> turn) |> adjust |> svg "ok.svg"
 
     let fish2 = fish |> toss |> flip
@@ -261,8 +266,6 @@ let main argv =
       let u2 = over (fish2 |> turn |> turn) (fish2 |> turn |> turn |> turn)
       over u1 u2
 
-    //let v = t |> turn |> cycle
-    //let v = t |> turn |> cycle
     let u = fish |> uify
 
     let side1 = quartet blank blank (t |> turn) t
@@ -297,6 +300,8 @@ let main argv =
     //rect |> (v |> turn)
     rect |> (fish |> turn) |> adjust |> svg "fish.svg"
     rect |> (squarelimit2 |> turn) |> adjust |> svg "limit.svg"
+
+    rect |> (squarelimit2 |> turn) |> adjust |> png "limit.png"
 
     //rect |> (fish |> turn)
     //rect |> (aboveRatio 1 2 fish (fish |> turn) |> turn)
