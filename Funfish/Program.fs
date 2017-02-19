@@ -14,6 +14,10 @@ open Render
 open Letters
 open SquareLimit
 
+// fswatch ./funfish/ | xargs -I {} cp {} ./svgwatcher/svgimages/
+// qlmanage -t -s 1000 -o . picture.svg 
+// rsvg-convert -h 32 icon.svg > icon-32.png
+
 [<EntryPoint>]
 let main argv =
     let rect = createRectangle (createVector 0. 0.)
@@ -21,8 +25,9 @@ let main argv =
                                (createVector 600. 0.)
    
     rect |> (fish |> turn) |> svg "fish.svg"
-    rect |> (fish |> turn) |> svg "fish.svg"
-    rect |> (squarelimit2 |> turn) |> svg "limit.svg"
-    rect |> (squarelimit2 |> turn) |> png "limit.png"
+    rect |> (squarelimit2 |> turn) |> svg "limit2.svg"
+    rect |> (squarelimit2 |> turn) |> png "limit2.png"
+    rect |> (squarelimit 3 |> turn) |> svg "limit3.svg"
+    rect |> (squarelimit 4 |> turn) |> svg "limit4.svg"
 
     0 // return an integer exit code
