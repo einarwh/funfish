@@ -13,7 +13,12 @@ let paintSvg (width : int) (height: int) (filename : string) (drawables : Drawab
   let size = new Size(float width, float height)
   let p x y = new NGraphics.Point(x, y)
   let canvas = new GraphicCanvas(size)
-  let color, pen = Colors.Red, Pens.Red
+  let color, pen = Colors.Black, Pens.Black
+  let drawPoint x y = 
+    let x0, x1 = x - 2., x + 2.
+    let y0, y1 = y - 2., y + 2.
+    canvas.DrawLine(p x0 y0, p x1 y1, Colors.Blue)
+    canvas.DrawLine(p x0 y1, p x1 y0, Colors.Blue)
   let draw d =
     match d with
     | Line ls -> 
@@ -31,9 +36,8 @@ let paintSvg (width : int) (height: int) (filename : string) (drawables : Drawab
       let curve = new CurveTo(p x2 y2, p x3 y3, p x4 y4) :> PathOp
       canvas.DrawPath([move; curve], pen)
       // Debugging: view control points.
-      let pointSize = new Size(1.)
-      canvas.DrawEllipse(p x2 y2, pointSize, pen) 
-      canvas.DrawEllipse(p x3 y3, pointSize, pen) 
+      //drawPoint x2 y2
+      //drawPoint x3 y3
   drawables |> List.iter draw
   use writer = new StreamWriter(filename)
   canvas.Graphic.WriteSvg(writer)
