@@ -13,7 +13,10 @@ let paintSvg (width : int) (height: int) (filename : string) (drawables : Drawab
   let size = new Size(float width, float height)
   let p x y = new NGraphics.Point(x, y)
   let canvas = new GraphicCanvas(size)
-  let color, pen = Colors.Black, Pens.Black
+  let debug = false
+  let debugColors = Colors.Red, Pens.Red
+  let colors = Colors.Black, Pens.Black
+  let color, pen = if debug then debugColors else colors
   let drawPoint x y = 
     let x0, x1 = x - 2., x + 2.
     let y0, y1 = y - 2., y + 2.
@@ -36,8 +39,11 @@ let paintSvg (width : int) (height: int) (filename : string) (drawables : Drawab
       let curve = new CurveTo(p x2 y2, p x3 y3, p x4 y4) :> PathOp
       canvas.DrawPath([move; curve], pen)
       // Debugging: view control points.
-      //drawPoint x2 y2
-      //drawPoint x3 y3
+      if debug then 
+        drawPoint x1 y1
+        drawPoint x2 y2
+        drawPoint x3 y3
+        drawPoint x4 y4
   drawables |> List.iter draw
   use writer = new StreamWriter(filename)
   canvas.Graphic.WriteSvg(writer)

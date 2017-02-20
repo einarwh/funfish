@@ -53,47 +53,47 @@ let fishCurves = [
               (createPoint 0.260 0.295) //
               (createPoint 0.330 0.258) //
               (createPoint 0.815 0.078) //  
-  createCurve (createPoint 0.565 0.034) // C2
+  createCurve (createPoint 0.564 0.032) // C2
               (createPoint 0.730 0.056) //
-              (createPoint 0.800 0.052) //
+              (createPoint 0.835 0.042) //
               (createPoint 1.000 0.000) //
-  createCurve (createPoint 0.251 0.251) // C3
-              (createPoint 0.372 0.198) //
-              (createPoint 0.452 0.136) //
-              (createPoint 0.565 0.034) //         
+  createCurve (createPoint 0.250 0.250) // C3
+              (createPoint 0.372 0.193) //
+              (createPoint 0.452 0.132) //
+              (createPoint 0.564 0.032) //         
   createCurve (createPoint 0.000 0.000) // C4
-              (createPoint 0.108 0.102) //
-              (createPoint 0.168 0.162) //
-              (createPoint 0.251 0.251) //         
-  createCurve (createPoint -0.245 0.250) // C5
-              (createPoint -0.150 0.160) //
-              (createPoint -0.090 0.100) //
+              (createPoint 0.108 0.106) //
+              (createPoint 0.168 0.166) //
+              (createPoint 0.250 0.250) //         
+  createCurve (createPoint -0.250 0.250) // C5
+              (createPoint -0.150 0.156) //
+              (createPoint -0.090 0.096) //
               (createPoint 0.000 0.000) //           
-  createCurve (createPoint -0.245 0.250) // C6
+  createCurve (createPoint -0.250 0.250) // C6
               (createPoint -0.180 0.390) //
-              (createPoint -0.120 0.466) //
-              (createPoint -0.028 0.563) //  
-  createCurve (createPoint -0.028 0.563) // C7
+              (createPoint -0.116 0.466) //
+              (createPoint -0.032 0.564) //  
+  createCurve (createPoint -0.032 0.564) // C7
               (createPoint 0.055 0.355) //
               (createPoint 0.080 0.330) //
               (createPoint 0.251 0.251) //         
-  createCurve (createPoint -0.025 0.560) // C8
-              (createPoint -0.050 0.670) //
+  createCurve (createPoint -0.032 0.564) // C8
+              (createPoint -0.047 0.670) //
               (createPoint -0.050 0.780) //
               (createPoint 0.000 1.000) //
   createCurve (createPoint 0.000 1.000) // C9
-              (createPoint 0.150 0.910) //
-              (createPoint 0.200 0.856) //
+              (createPoint 0.150 0.906) //
+              (createPoint 0.200 0.850) //
               (createPoint 0.237 0.798) //
   createCurve (createPoint 0.237 0.798) // C10
-              (createPoint 0.368 0.664)
-              (createPoint 0.238 0.538)
+              (createPoint 0.368 0.650)
+              (createPoint 0.232 0.540)
               (createPoint 0.377 0.377)    
   createCurve (createPoint 0.377 0.377) // C11
               (createPoint 0.400 0.350)
               (createPoint 0.450 0.300)
-              (createPoint 0.515 0.245)    
-  createCurve (createPoint 0.515 0.245) // C12 
+              (createPoint 0.500 0.250)    
+  createCurve (createPoint 0.500 0.250) // C12 
               (createPoint 0.600 0.218)
               (createPoint 0.700 0.208)
               (createPoint 0.767 0.206)    
@@ -158,19 +158,19 @@ let fishCurves = [
               (createPoint 0.042 0.760) //
               (createPoint 0.053 0.819) //   
   createCurve (createPoint 0.053 0.819) // C28 -
-              (createPoint 0.092 0.812) //
-              (createPoint 0.094 0.752) //
+              (createPoint 0.085 0.812) //
+              (createPoint 0.092 0.752) //
               (createPoint 0.098 0.700) //   
   createCurve (createPoint 0.130 0.718) // C29 -
               (createPoint 0.150 0.730) //
               (createPoint 0.175 0.745) //
-              (createPoint 0.192 0.752) // 
+              (createPoint 0.187 0.752) // 
   createCurve (createPoint 0.130 0.718) // C30 -
               (createPoint 0.110 0.795) //
               (createPoint 0.110 0.810) //
               (createPoint 0.112 0.845) // 
   createCurve (createPoint 0.112 0.845) // C31 -
               (createPoint 0.150 0.805) //
-              (createPoint 0.177 0.780) // 
-              (createPoint 0.192 0.752) //   
+              (createPoint 0.172 0.780) // 
+              (createPoint 0.187 0.752) //   
 ]
