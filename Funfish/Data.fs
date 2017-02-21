@@ -84,8 +84,8 @@ let fishCurves = [
   createCurve (createPoint 0.000 1.000) // C9
               (createPoint 0.150 0.906) //
               (createPoint 0.200 0.850) //
-              (createPoint 0.237 0.798) //
-  createCurve (createPoint 0.237 0.798) // C10
+              (createPoint 0.235 0.799) //
+  createCurve (createPoint 0.235 0.799) // C10
               (createPoint 0.368 0.650)
               (createPoint 0.232 0.540)
               (createPoint 0.377 0.377)    
@@ -96,12 +96,12 @@ let fishCurves = [
   createCurve (createPoint 0.500 0.250) // C12 
               (createPoint 0.600 0.218)
               (createPoint 0.700 0.208)
-              (createPoint 0.767 0.206)    
-  createCurve (createPoint 0.767 0.206) // C13
+              (createPoint 0.765 0.201)    
+  createCurve (createPoint 0.765 0.201) // C13
               (createPoint 0.840 0.110) //
               (createPoint 0.885 0.075) //
               (createPoint 1.000 0.000) //    
-  createCurve (createPoint 0.237 0.798) // C14
+  createCurve (createPoint 0.235 0.799) // C14
               (createPoint 0.360 0.790) //
               (createPoint 0.420 0.780) //
               (createPoint 0.500 0.750) //  
