@@ -1,3 +1,5 @@
+module Tests
+
 open Expecto
 
 open Vectors
@@ -10,7 +12,6 @@ let tests =
       testCase "createVector 1" <| fun() ->
         let v = createVector 1. 5.
         Expect.equal (x v) 1. "x is wrong"
-        Expect.equal (y v) 5. "y is wrong"
       testCase "createVector 2" <| fun() ->
         let v = createVector 3. 2.
         Expect.equal (x v) 3. "x is wrong"
@@ -148,8 +149,3 @@ let tests =
         Expect.equal result (expected1, expected2) "split rectangle vertically 1"
     ]
   ]
-
-
-[<EntryPoint>]
-let main args =
-  runTestsInAssembly defaultConfig args

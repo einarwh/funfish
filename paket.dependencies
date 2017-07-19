@@ -2,4 +2,6 @@ source https://www.nuget.org/api/v2
 nuget FAKE
 nuget FSharp.Core
 nuget NGraphics
+nuget FsCheck
 nuget Expecto
+nuget Expecto.FsCheck

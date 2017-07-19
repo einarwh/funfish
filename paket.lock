@@ -13,7 +13,15 @@ NUGET
       System.Diagnostics.FileVersionInfo (>= 4.3) - restriction: >= netstandard1.6
       System.Diagnostics.TraceSource (>= 4.3) - restriction: >= netstandard1.6
       System.Linq.Parallel (>= 4.3) - restriction: >= netstandard1.6
+    Expecto.FsCheck (5.0)
+      Expecto (>= 5.0)
+      FsCheck (>= 2.8)
+      FSharp.Core (>= 4.1.12)
     FAKE (4.62.5)
+    FsCheck (2.9)
+      FSharp.Core (>= 4.1) - restriction: < netstandard1.6
+      FSharp.Core (>= 4.1.17) - restriction: >= netstandard1.6
+      NETStandard.Library (>= 1.6.1) - restriction: >= netstandard1.6
     FSharp.Core (4.2.1)
       System.Collections (>= 4.0.11) - restriction: >= netstandard1.6
       System.Console (>= 4.0) - restriction: >= netstandard1.6
