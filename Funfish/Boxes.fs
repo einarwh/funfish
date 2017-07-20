@@ -12,7 +12,7 @@ let turn { a = a; b = b; c = c } =
     b = c 
     c = (-1. * b) }
 
-let flip { a = a; b = b; c = c } : Box = 
+let flip { a = a; b = b; c = c } = 
   { a = a + b
     b = -b
     c = c }

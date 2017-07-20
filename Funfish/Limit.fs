@@ -3,15 +3,17 @@
 open Monochromes
 
 let ttile f = 
-   let fish2 = flip (toss f)
-   let fish3 = turn (turn (turn fish2))
-   over f (over fish2 fish3)
+   let fishN = f |> toss |> flip
+   let fishE = fishN |> turn |> turn |> turn 
+   over f (over fishN fishE)
 
 let utile f = 
-  let fish2 = f |> toss |> flip
-  let u1 = over fish2 (fish2 |> turn) 
-  let u2 = over (fish2 |> turn |> turn) (fish2 |> turn |> turn |> turn)
-  over u1 u2
+  let fishN = f |> toss |> flip
+  let fishW = fishN |> turn
+  let fishS = fishW |> turn
+  let fishE = fishS |> turn
+  over (over fishN fishW)
+       (over fishE fishS)
 
 let quartet p q r s = 
   above (beside p q) (beside r s)
@@ -25,7 +27,8 @@ let rec side n p =
   quartet s s (t |> turn) t
 
 let rec corner n p = 
-  let c, s = if n = 1 then blank, blank else corner (n - 1) p, side (n - 1) p
+  let c, s = if n = 1 then blank, blank 
+             else corner (n - 1) p, side (n - 1) p
   let u = utile p
   quartet c s (s |> turn) u
 
@@ -34,16 +37,16 @@ let nonet p q r s t u v w x =
                  (aboveRatio 1 1 (besideRatio 1 2 s (beside t u))
                                  (besideRatio 1 2 v (beside w x)))
 
-let squarelimit n fish =
-  let theCorner = corner n fish
-  let theSide = side n fish
-  let p = theCorner
-  let q = theSide
-  let r = theCorner |> turn |> turn |> turn
-  let s = theSide |> turn
-  let t = fish |> utile
-  let u = theSide |> turn |> turn |> turn
-  let v = theCorner |> turn
-  let w = theSide |> turn |> turn
-  let x = theCorner |> turn |> turn
-  nonet p q r s t u v w x
+let squareLimit n p =
+  let cornerNW = corner n p
+  let cornerSW = turn cornerNW
+  let cornerSE = turn cornerSW
+  let cornerNE = turn cornerSE
+  let sideN = side n p
+  let sideW = turn sideN
+  let sideS = turn sideW
+  let sideE = turn sideS
+  let center = utile p
+  nonet cornerNW sideN cornerNE  
+        sideW center sideE
+        cornerSW sideS cornerSE
