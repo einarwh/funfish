@@ -49,12 +49,13 @@
     <None Include="App.config" />
     <Compile Include="Vectory.fs" />
     <Compile Include="Boxes.fs" />
+    <Compile Include="Shapes.fs" />
     <Compile Include="Monochromes.fs" />
     <Compile Include="Limit.fs" />
-    <Compile Include="Shapes.fs" />
-    <Compile Include="Points.fs" />
     <Compile Include="Lettery.fs" />
+    <Compile Include="Fishy.fs" />
     <Compile Include="Svgy.fs" />
+    <Compile Include="Points.fs" />
     <Compile Include="Vectors.fs" />
     <Compile Include="Segments.fs" />
     <Compile Include="Curves.fs" />

@@ -18,8 +18,8 @@ let utile f =
 let quartet p q r s = 
   above (beside p q) (beside r s)
 
-let blank = 
-  fun box -> ()
+let blank : Picture = 
+  fun box -> []
 
 let rec side n p = 
   let s = if n = 1 then blank else side (n - 1) p
