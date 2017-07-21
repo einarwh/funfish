@@ -12,8 +12,9 @@ open Shades
 open Shapes  
 open Styling
 
-let mapper { a = a; b = b; c = c } = function  
-  | { x = x; y = y } -> a + b * x + c * y
+let mapper { a = a; b = b; c = c }  
+           { x = x; y = y } =
+   a + b * x + c * y
 
 let mapShape m = function 
   | Polygon { points = pts } ->
@@ -181,7 +182,6 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
       | Some fill -> getFillBrush fill
       | None -> null
     canvas.DrawPath(move :: curves, pen, brush)    
-    
   styledShapes |> List.iter (fun (shape, style) -> drawShape style shape)
   use writer = new StreamWriter(filename)
   canvas.Graphic.WriteSvg(writer)
