@@ -1,6 +1,6 @@
 ﻿module Boxes
 
-open Vectory
+open Vectors
 
 type Box = 
   { a : Vector 

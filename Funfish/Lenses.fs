@@ -1,4 +1,4 @@
-﻿module Lensy
+﻿module Lenses
 
 open Boxes
 

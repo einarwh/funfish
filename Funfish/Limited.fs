@@ -1,6 +1,6 @@
-﻿module Limit
+﻿module Limited
 
-open Monochromes
+open Pictures
 
 let ttile f = 
    let fishN = f |> toss |> flip

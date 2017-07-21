@@ -1,6 +1,6 @@
 ﻿module Fishier
 
-open Vectory
+open Vectors
 open Shapes
 
 let createVector x y = 

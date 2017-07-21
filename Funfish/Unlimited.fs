@@ -1,4 +1,4 @@
-﻿module HueLimit
+﻿module Unlimited
 
 open Shades
 

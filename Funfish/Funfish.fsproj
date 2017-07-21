@@ -47,33 +47,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="Vectory.fs" />
+    <Compile Include="Vectors.fs" />
     <Compile Include="Boxes.fs" />
     <Compile Include="Shapes.fs" />
     <Compile Include="Styling.fs" />
-    <Compile Include="Monochromes.fs" />
-    <Compile Include="Limit.fs" />
-    <Compile Include="Lettery.fs" />
+    <Compile Include="Pictures.fs" />
+    <Compile Include="Limited.fs" />
+    <Compile Include="Letters.fs" />
     <Compile Include="Fishy.fs" />
-    <Compile Include="Lensy.fs" />
+    <Compile Include="Lenses.fs" />
     <Compile Include="Fishier.fs" />
     <Compile Include="Shades.fs" />
-    <Compile Include="HueLimit.fs" />
+    <Compile Include="Unlimited.fs" />
     <Compile Include="Svgy.fs" />
-    <Compile Include="Points.fs" />
-    <Compile Include="Vectors.fs" />
-    <Compile Include="Segments.fs" />
-    <Compile Include="Curves.fs" />
-    <Compile Include="Data.fs" />
-    <Compile Include="Rectangles.fs" />
-    <Compile Include="Pictures.fs" />
-    <Compile Include="Mapping.fs" />
-    <Compile Include="Drawing.fs" />
-    <Compile Include="Letters.fs" />
-    <Compile Include="SquareLimit.fs" />
-    <Compile Include="Bitmaps.fs" />
-    <Compile Include="Svg.fs" />
-    <Compile Include="Render.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

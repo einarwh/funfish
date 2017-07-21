@@ -45,9 +45,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VectoryTests.fs" />
+    <Compile Include="VectorsTests.fs" />
     <Compile Include="BoxesTests.fs" />
-    <Compile Include="Tests.fs" />
     <None Include="App.config" />
     <Compile Include="Runner.fs" />
   </ItemGroup>

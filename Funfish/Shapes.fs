@@ -1,6 +1,6 @@
 ﻿module Shapes
 
-open Vectory
+open Vectors
 
 type PolygonShape = 
   { points : Vector list }

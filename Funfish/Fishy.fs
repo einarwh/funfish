@@ -1,6 +1,6 @@
 ﻿module Fishy
 
-open Vectory
+open Vectors
 open Shapes
 
 let createVector x y = 

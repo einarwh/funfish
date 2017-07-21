@@ -1,8 +1,8 @@
-﻿module VectoryTests
+﻿module VectorsTests
 
 open Expecto
 
-open Vectory
+open Vectors
 
 [<Tests>]
 let tests =

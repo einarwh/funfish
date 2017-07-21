@@ -4,10 +4,10 @@ open System.IO
 
 open NGraphics
 
-open Vectory
+open Vectors
 open Boxes
-open Lensy
-open Monochromes
+open Lenses
+open Pictures
 open Shades
 open Shapes  
 open Styling
@@ -29,6 +29,14 @@ let mapShape m = function
             point2 = m v2 
             point3 = m v3 
             point4 = m v4 }
+  | Path (start, beziers) ->
+    let mapBezier { controlPoint1 = cp1
+                    controlPoint2 = cp2 
+                    endPoint = ep } =
+      { controlPoint1 = m cp1 
+        controlPoint2 = m cp2 
+        endPoint = m ep }
+    Path (m start, beziers |> List.map mapBezier)
 
 let getStrokeWidth { a = a; b = b; c = c } =
   let s = min (size b) (size c)
@@ -105,17 +113,17 @@ let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) =
     let style = getPathStyle name sw hue
     Path (m start, beziers |> List.map (mapBezier m)), style
                      
-let shapeVectors = function 
-  | Polygon { points = pts } -> pts
+//let shapeVectors = function 
+//  | Polygon { points = pts } -> pts
 
-let getVectors (shapes : Shape list) = 
-  shapes |> List.collect shapeVectors
+//let getVectors (shapes : Shape list) = 
+//  shapes |> List.collect shapeVectors
 
-let bound (shapes : Shape list) = 
-  let vectors = shapes |> List.collect shapeVectors
-  let xmax = vectors |> List.map (fun { x = x; y = _ } -> x) |> List.max
-  let ymax = vectors |> List.map (fun { x = _; y = y } -> y) |> List.max
-  (xmax, ymax)
+//let bound (shapes : Shape list) = 
+//  let vectors = shapes |> List.collect shapeVectors
+//  let xmax = vectors |> List.map (fun { x = x; y = _ } -> x) |> List.max
+//  let ymax = vectors |> List.map (fun { x = _; y = y } -> y) |> List.max
+//  (xmax, ymax)
 
 let getStyle box = 
   let sw = getStrokeWidth box
@@ -195,33 +203,33 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
   use writer = new StreamWriter(filename)
   canvas.Graphic.WriteSvg(writer)
 
-let renderSvg' (width : float) (height : float) (filename : string) (styledShapes : (string * Shape * Style) list) = 
-  let size = Size(width, height)
-  let canvas = GraphicCanvas(size)
-  let color, defaultPen = Colors.Black, Pens.Black
-  let p x y = Point(x, height - y) // Point(x, ymax - y)?
-  let getPen style = match style.stroke with Some stroke -> defaultPen.WithWidth(stroke.strokeWidth) | None -> defaultPen
-  let drawShape (name : string) (style : Style) = function 
-  | Polygon { points = pts } ->
-    match pts |> List.map (fun { x = x; y = y } -> p x y) with 
-    | startPoint :: t ->
-      let move = MoveTo(startPoint) :> PathOp
-      let lines = t |> List.map (fun pt -> LineTo(pt) :> PathOp) 
-      let close = ClosePath() :> PathOp
-      let ops = (move :: lines) @ [ close ] 
-      canvas.DrawPath(ops, getPen style)
-    | _ -> ()
-  | Curve { point1 = { x = x1; y = y1 }
-            point2 = { x = x2; y = y2 }
-            point3 = { x = x3; y = y3 } 
-            point4 = { x = x4; y = y4 } } ->
-    let pt1, pt2, pt3, pt4 = p x1 y1, p x2 y2, p x3 y3, p x4 y4
-    let move  = new MoveTo(pt1) :> PathOp
-    let curve = new CurveTo(pt2, pt3, pt4) :> PathOp
-    canvas.DrawPath([move; curve], getPen style)  
-  styledShapes |> List.iter (fun (name, shape, style) -> drawShape name style shape)
-  use writer = new StreamWriter(filename)
-  canvas.Graphic.WriteSvg(writer)
+//let renderSvg' (width : float) (height : float) (filename : string) (styledShapes : (string * Shape * Style) list) = 
+//  let size = Size(width, height)
+//  let canvas = GraphicCanvas(size)
+//  let color, defaultPen = Colors.Black, Pens.Black
+//  let p x y = Point(x, height - y) // Point(x, ymax - y)?
+//  let getPen style = match style.stroke with Some stroke -> defaultPen.WithWidth(stroke.strokeWidth) | None -> defaultPen
+//  let drawShape (name : string) (style : Style) = function 
+//  | Polygon { points = pts } ->
+//    match pts |> List.map (fun { x = x; y = y } -> p x y) with 
+//    | startPoint :: t ->
+//      let move = MoveTo(startPoint) :> PathOp
+//      let lines = t |> List.map (fun pt -> LineTo(pt) :> PathOp) 
+//      let close = ClosePath() :> PathOp
+//      let ops = (move :: lines) @ [ close ] 
+//      canvas.DrawPath(ops, getPen style)
+//    | _ -> ()
+//  | Curve { point1 = { x = x1; y = y1 }
+//            point2 = { x = x2; y = y2 }
+//            point3 = { x = x3; y = y3 } 
+//            point4 = { x = x4; y = y4 } } ->
+//    let pt1, pt2, pt3, pt4 = p x1 y1, p x2 y2, p x3 y3, p x4 y4
+//    let move  = new MoveTo(pt1) :> PathOp
+//    let curve = new CurveTo(pt2, pt3, pt4) :> PathOp
+//    canvas.DrawPath([move; curve], getPen style)  
+//  styledShapes |> List.iter (fun (name, shape, style) -> drawShape name style shape)
+//  use writer = new StreamWriter(filename)
+//  canvas.Graphic.WriteSvg(writer)
 
 
 (**

@@ -1,19 +1,19 @@
 ﻿module Shades
 
 open Styling
-open Lensy
+open Lenses
 open Shapes
 
 type LensPicture = Lens -> (Shape * Style) list
 
 let turn p = 
-  Lensy.turn >> p
+  Lenses.turn >> p
 
 let flip p = 
-  Lensy.flip >> p
+  Lenses.flip >> p
 
 let toss p = 
-  Lensy.toss >> p
+  Lenses.toss >> p
 
 let besideRatio (m : int) (n : int) (p1 : LensPicture) (p2 : LensPicture) =
   fun lens ->
@@ -36,4 +36,4 @@ let over p1 p2 =
     p1 box @ p2 box
 
 let rehue p = 
-  Lensy.rehue >> p
+  Lenses.rehue >> p
