@@ -56,7 +56,9 @@
     <Compile Include="Lettery.fs" />
     <Compile Include="Fishy.fs" />
     <Compile Include="Lensy.fs" />
+    <Compile Include="Fishier.fs" />
     <Compile Include="Shades.fs" />
+    <Compile Include="HueLimit.fs" />
     <Compile Include="Svgy.fs" />
     <Compile Include="Points.fs" />
     <Compile Include="Vectors.fs" />

@@ -1,9 +1,10 @@
 ﻿module Shades
 
+open Styling
 open Lensy
 open Shapes
 
-type LensPicture = Lens -> Shape list
+type LensPicture = Lens -> (Shape * Style) list
 
 let turn p = 
   Lensy.turn >> p
@@ -33,3 +34,6 @@ let above = aboveRatio 1 1
 let over p1 p2 = 
   fun box ->
     p1 box @ p2 box
+
+let rehue p = 
+  Lensy.rehue >> p

@@ -19,10 +19,12 @@ open NGraphics
 
 open Vectory
 open Boxes
-open Monochromes
 open Lettery
 open Fishy
+open Fishier
+open Lensy
 open Limit
+open HueLimit
 open Svgy
 
 // fswatch ./funfish/ | xargs -I {} cp {} ./svgwatcher/svgimages/
@@ -64,13 +66,38 @@ let hendersonSquareLimit width height =
         
   box |> squareLimit 4 fish |> renderSvg width height "square-limit-4.svg"
 
+let hueFish hue filename width height = 
+  let fish = createLensPicture fishShapes
+  let box = { a = { x = width / 4.; y = height / 4. }
+              b = { x = width / 2.; y = 0. } 
+              c = { x = 0.; y = height / 2. } }
 
+  let lens = box, hue
+  lens |> fish |> renderSvg width height filename
+
+let blackFish = hueFish Blackish "fish-black.svg" 
+let greyFish = hueFish Greyish "fish-grey.svg" 
+let whiteFish = hueFish Whiteish "fish-white.svg" 
+
+let hueSquareLimit n width height = 
+  let fish = createLensPicture fishShapes
+  let box = { a = { x = 0.; y = 0. }
+              b = { x = width; y = 0. } 
+              c = { x = 0.; y = height } }
+
+  let lens = box, Greyish
+  let filename = sprintf "squarelimit-hue-%d.svg" n
+  lens |> squareLimit' 4 fish |> renderSvg width height filename
 
 [<EntryPoint>]
 let main argv =
   hendersonNonet 400. 400.
   hendersonTtile 400. 400.
   hendersonSquareLimit 400. 400.
+  blackFish 400. 400.
+  greyFish 400. 400.
+  whiteFish 400. 400.
+  hueSquareLimit 4 400. 400.
   0
   
   (*
