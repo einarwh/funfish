@@ -50,10 +50,13 @@
     <Compile Include="Vectory.fs" />
     <Compile Include="Boxes.fs" />
     <Compile Include="Shapes.fs" />
+    <Compile Include="Styling.fs" />
     <Compile Include="Monochromes.fs" />
     <Compile Include="Limit.fs" />
     <Compile Include="Lettery.fs" />
     <Compile Include="Fishy.fs" />
+    <Compile Include="Lensy.fs" />
+    <Compile Include="Shades.fs" />
     <Compile Include="Svgy.fs" />
     <Compile Include="Points.fs" />
     <Compile Include="Vectors.fs" />

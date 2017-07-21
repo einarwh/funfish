@@ -2,8 +2,9 @@
 
 open Boxes
 open Shapes
+open Styling
 
-type Picture = Box -> Shape list
+type Picture = Box -> (Shape * Style) list
 
 let turn (p : Picture) : Picture = 
   Boxes.turn >> p
