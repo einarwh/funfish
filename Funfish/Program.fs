@@ -11,7 +11,7 @@ open Fishier
 open Lenses
 open Limited
 open Unlimited
-open Svgy
+open Svg
 
 // fswatch ./funfish/ | xargs -I {} cp {} ./svgwatcher/svgimages/
 // qlmanage -t -s 1000 -o . picture.svg 

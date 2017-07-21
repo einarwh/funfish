@@ -1,4 +1,4 @@
-﻿module Svgy
+﻿module Svg
 
 open System.IO
 

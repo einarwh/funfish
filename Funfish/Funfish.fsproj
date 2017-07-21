@@ -59,7 +59,7 @@
     <Compile Include="Fishier.fs" />
     <Compile Include="Shades.fs" />
     <Compile Include="Unlimited.fs" />
-    <Compile Include="Svgy.fs" />
+    <Compile Include="Svg.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
