@@ -8,6 +8,7 @@ open Boxes
 open Letters
 open Fishy
 open Fishier
+open Lizard
 open Lenses
 open Limited
 open Unlimited
@@ -43,6 +44,17 @@ let hendersonTtile width height =
         
   box |> ttile fish |> renderSvg width height "fish-t-tile.svg"
 
+let hendersonEgg width height = 
+  let fish = createPicture hendersonFishShapes
+  let box = { a = { x = 100.; y = 100. }
+              b = { x = 3200.; y = 0. } 
+              c = { x = 0.; y = 600. } }
+
+  let depth = 3
+  let band = egg depth 16 fish        
+  box |> band |> renderSvg width height (sprintf "henderson-egg-%d.svg" depth)
+
+
 let hendersonSquareLimit width height = 
   let fish = createPicture hendersonFishShapes
   let box = { a = { x = 0.; y = 0. }
@@ -74,6 +86,26 @@ let hueSquareLimit n width height =
   let filename = sprintf "squarelimit-hue-%d.svg" n
   lens |> squareLimit' 4 fish |> renderSvg width height filename
 
+let plainLizard width height = 
+  let lizard = createPicture [ lizardPath ]
+  let box = { a = { x = width / 4.; y = height / 4. }
+              b = { x = width / 2.; y = 0. } 
+              c = { x = 0.; y = height / 2. } }
+        
+  box |> lizard |> renderSvg width height "plain-lizard.svg"
+
+let escherEgg width height = 
+  let fish = createLensPicture fishShapes
+  let box = { a = { x = 100.; y = 100. }
+              b = { x = 3200.; y = 0. } 
+              c = { x = 0.; y = 600. } }
+
+  let depth = 3
+  let band = egg' depth 16 fish
+  let lens = box, Blackish
+  lens |> band |> renderSvg width height (sprintf "escher-egg-%d.svg" depth)
+
+
 [<EntryPoint>]
 let main argv =
   hendersonNonet 400. 400.
@@ -83,5 +115,8 @@ let main argv =
   greyFish 400. 400.
   whiteFish 400. 400.
   hueSquareLimit 4 400. 400.
+  plainLizard 400. 400.
+  hendersonEgg 3400. 800.
+  escherEgg 3400. 800.
   0
   

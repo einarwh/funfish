@@ -181,7 +181,9 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
       match style.fill with 
       | Some fill -> getFillBrush fill
       | None -> null
-    canvas.DrawPath(move :: curves, pen, brush)    
+    let close = ClosePath() :> PathOp
+    let ops = (move :: curves) @ [ close ] 
+    canvas.DrawPath(ops, pen, brush)    
   styledShapes |> List.iter (fun (shape, style) -> drawShape style shape)
   use writer = new StreamWriter(filename)
   canvas.Graphic.WriteSvg(writer)

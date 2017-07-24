@@ -54,6 +54,7 @@
     <Compile Include="Pictures.fs" />
     <Compile Include="Limited.fs" />
     <Compile Include="Letters.fs" />
+    <Compile Include="Lizard.fs" />
     <Compile Include="Fishy.fs" />
     <Compile Include="Lenses.fs" />
     <Compile Include="Fishier.fs" />

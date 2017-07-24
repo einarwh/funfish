@@ -8,6 +8,8 @@ let ttile' hueN hueE f =
    over f (over (fishN |> hueN)
                 (fishE |> hueE))
 
+let ttile0 = ttile' (rehue >> rehue >> rehue) (rehue >> rehue >> rehue)
+
 let ttile1 = ttile' rehue (rehue >> rehue)
 
 let ttile2 = ttile' (rehue >> rehue) rehue
@@ -19,6 +21,9 @@ let utile' hueN hueW hueS hueE f =
   let fishE = fishS |> turn
   over (over (fishN |> hueN) (fishW |> hueW))
        (over (fishE |> hueE) (fishS |> hueS))
+
+let utile0 = 
+  utile' id id id id
 
 let utile1 = 
   utile' (rehue >> rehue) id (rehue >> rehue) id
@@ -41,6 +46,9 @@ let side' tt hueSW hueSE n p =
     let r = if n = 1 then blank else aux (n - 1) p
     quartet' r r (t |> turn |> hueSW) (t |> hueSE)
   aux n p
+
+let side0 =
+  side' ttile0 id id
 
 let side1 =
   side' ttile1 id rehue 
@@ -81,3 +89,24 @@ let squareLimit' n picture =
   nonet' cornerNW sideN cornerNE  
          sideW center sideE
          cornerSW sideS cornerSE
+
+let bandify' combineRatio (n : int) (first : LensPicture) (middle : LensPicture) (last : LensPicture) = 
+  let pictures = first :: List.replicate (n - 2) middle
+  let folder item (p, ratio) = 
+    (combineRatio 1 ratio item p, ratio + 1) 
+  let (result, _) = List.foldBack folder pictures (last, 1)
+  result
+
+let aboveBand' = bandify' aboveRatio
+
+let besideBand' = bandify' besideRatio
+
+let egg' n m p = 
+  let sideN = side0 n p
+  let sideS = sideN |> turn |> turn
+  let center = utile0 p
+  let topband = besideBand' m sideN sideN sideN
+  let midband = besideBand' m center center center
+  let botband = besideBand' m sideS sideS sideS
+  let band = aboveBand' 3 topband midband botband
+  band

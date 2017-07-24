@@ -37,6 +37,40 @@ let nonet p q r s t u v w x =
                  (aboveRatio 1 1 (besideRatio 1 2 s (beside t u))
                                  (besideRatio 1 2 v (beside w x)))
 
+let bandify combineRatio (n : int) (first : Picture) (middle : Picture) (last : Picture) = 
+  let pictures = first :: List.replicate (n - 2) middle
+  let folder item (p, ratio) = 
+    (combineRatio 1 ratio item p, ratio + 1) 
+  let (result, _) = List.foldBack folder pictures (last, 1)
+  result
+
+let aboveBand = bandify aboveRatio
+
+let besideBand = bandify besideRatio
+
+let egg n m p = 
+  let cornerNW = corner n p
+  let cornerSW = turn cornerNW
+  let cornerSE = turn cornerSW
+  let cornerNE = turn cornerSE
+  let sideN = side n p
+  let sideW = turn sideN
+  let sideS = turn sideW
+  let sideE = turn sideS
+  let center = utile p
+  let topband = besideBand m sideN sideN sideN
+  let midband = besideBand m center center center
+  let botband = besideBand m sideS sideS sideS
+  let band = aboveBand 3 topband midband botband
+  band
+
+let eggband (n : int) (picture : Picture) =
+  let theSide = side n picture
+  let q = theSide
+  let t = picture |> utile
+  let w = theSide |> turn |> turn
+  nonet q q q t t t w w w
+
 let squareLimit n p =
   let cornerNW = corner n p
   let cornerSW = turn cornerNW

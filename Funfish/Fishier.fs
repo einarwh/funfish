@@ -48,13 +48,9 @@ let fishyBeziers = [
   createBezier (-0.132, 0.452)
                (-0.194, 0.372)
                (-0.250, 0.250)
-  (* short-circuit here *)
   createBezier (-0.150, 0.150)
                (-0.050, 0.050)
                (0.000, 0.000)
-(*
- 
-               *)
 ]
 
 let fishyPath = Path ({ x = 0.000; y = 0.000}, fishyBeziers) 
