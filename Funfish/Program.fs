@@ -102,7 +102,7 @@ let escherEgg width height =
 
   let depth = 3
   let band = egg' depth 16 fish
-  let lens = box, Blackish
+  let lens = box, Hollow
   lens |> band |> renderSvg width height (sprintf "escher-egg-%d.svg" depth)
 
 

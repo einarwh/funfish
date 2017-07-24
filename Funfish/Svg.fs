@@ -54,11 +54,13 @@ let getDefaultColor name hue =
     | Blackish -> StyleColor.White
     | Greyish -> StyleColor.White
     | Whiteish -> StyleColor.Black
+    | Hollow -> StyleColor.Black
   else
     match hue with 
     | Blackish -> StyleColor.Black
     | Greyish -> StyleColor.Grey
     | Whiteish -> StyleColor.White
+    | Hollow -> StyleColor.White
 
 let getDefaultStyle name hue sw = 
   let stroke = 
@@ -82,15 +84,26 @@ let getColor name = function
     else if name = "eye-outer" then StyleColor.White  
     else if name = "eye-inner" then StyleColor.Black 
     else StyleColor.Black
+  | Hollow -> 
+    if name = "primary" then StyleColor.White  
+    else if name = "eye-outer" then StyleColor.White  
+    else if name = "eye-inner" then StyleColor.Black 
+    else StyleColor.Black
 
 let getEyeLiner sw hue =  
   { strokeColor = getColor "secondary" hue 
     strokeWidth = sw / 1.5 }
     
 let getPathStyle name sw hue = 
-  let stroke = if name = "eye-outer" then Some <| getEyeLiner sw hue else None
-  let fill = Some { fillColor = getColor name hue }
-  { stroke = stroke; fill = fill }
+  match hue with
+  | Hollow ->
+    let stroke = Some <| getEyeLiner sw hue
+    let fill = if name = "eye-inner" then Some { fillColor = Black } else None
+    { stroke = stroke; fill = fill }    
+  | _ -> 
+    let stroke = if name = "eye-outer" then Some <| getEyeLiner sw hue else None
+    let fill = Some { fillColor = getColor name hue }
+    { stroke = stroke; fill = fill }
 
 let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) = 
   let m = mapper box

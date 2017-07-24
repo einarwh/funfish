@@ -2,7 +2,7 @@
 
 open Boxes
 
-type Hue = Blackish | Greyish | Whiteish
+type Hue = Blackish | Greyish | Whiteish | Hollow
 
 type Lens = Box * Hue
 
@@ -40,4 +40,5 @@ let rehue (box, hue) =
   | Blackish -> Greyish
   | Greyish -> Whiteish
   | Whiteish -> Blackish
+  | Hollow -> Hollow
   box, change hue
