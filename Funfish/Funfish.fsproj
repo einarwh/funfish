@@ -58,6 +58,7 @@
     <Compile Include="Fishy.fs" />
     <Compile Include="Lenses.fs" />
     <Compile Include="Fishier.fs" />
+    <Compile Include="Fishegg.fs" />
     <Compile Include="Shades.fs" />
     <Compile Include="Unlimited.fs" />
     <Compile Include="Svg.fs" />

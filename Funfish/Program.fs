@@ -8,6 +8,7 @@ open Boxes
 open Letters
 open Fishy
 open Fishier
+open Fishegg
 open Lizard
 open Lenses
 open Limited
@@ -94,17 +95,44 @@ let plainLizard width height =
         
   box |> lizard |> renderSvg width height "plain-lizard.svg"
 
-let escherEgg width height = 
+let escherEgg depth width height = 
   let fish = createLensPicture fishShapes
   let box = { a = { x = 0.; y = 100. }
               b = { x = 3600.; y = 0. } 
               c = { x = 0.; y = 600. } }
 
-  let depth = 3
   let band = egg' depth 18 fish
   let lens = box, Hollow
-  lens |> band |> renderSvg width height (sprintf "escher-egg-%d-3600.svg" depth)
+  lens |> band |> renderSvg width height (sprintf "escher-egg-%d-3600x800.svg" depth)
 
+let escherEgg' depth width height = 
+  let fish = createLensPicture fishShapes
+  let box = { a = { x = 0.; y = 000. }
+              b = { x = 3200.; y = 0. } 
+              c = { x = 0.; y = 800. } }
+
+  let band = egg' depth 12 fish
+  let lens = box, Hollow
+  lens |> band |> renderSvg width height (sprintf "escher-egg-tall-%d-3200x800.svg" depth)
+
+let escherEggStretch depth width height = 
+  let fish = createLensPicture fishShapes
+  let box = { a = { x = 0.; y = 000. }
+              b = { x = 3200.; y = 0. } 
+              c = { x = 0.; y = 800. } }
+
+  let band = egg' depth 10 fish
+  let lens = box, Hollow
+  lens |> band |> renderSvg width height (sprintf "escher-egg-stretch-%d-3200x800.svg" depth)
+
+let theEggfish width height = 
+  let fish = createLensPicture eggfishShapes
+  let box = { a = { x = 100.; y = 100. }
+              b = { x = 400.; y = 0. } 
+              c = { x = 0.; y = 400. } }
+
+  let lens = box, Hollow
+  lens |> fish |> renderSvg width height (sprintf "eggfish.svg")
 
 [<EntryPoint>]
 let main argv =
@@ -117,6 +145,11 @@ let main argv =
   hueSquareLimit 4 400. 400.
   plainLizard 400. 400.
   hendersonEgg 3600. 800.
-  escherEgg 3600. 800.
+  escherEgg 2 3600. 800.
+  escherEgg' 2 3200. 800.
+  escherEgg' 3 3200. 800.
+  escherEggStretch 2 3200. 800.
+  escherEggStretch 3 3200. 800.
+  theEggfish 600. 600.
   0
   

@@ -1,4 +1,4 @@
-﻿module Fishier
+﻿module Fishegg
 
 open Vectors
 open Shapes
@@ -14,7 +14,7 @@ let createBezier (x1, y1) (x2, y2) (x3, y3) =
     controlPoint2 = { x = x2; y = y2 } 
     endPoint =      { x = x3; y = y3 } }
 
-let fishyBeziers = [
+let eggfishyBeziers = [
   createBezier (0.110, 0.110) 
                (0.175, 0.175) 
                (0.250, 0.250)
@@ -53,9 +53,9 @@ let fishyBeziers = [
                (0.000, 0.000)
 ]
 
-let fishyPath = Path ({ x = 0.000; y = 0.000}, fishyBeziers) 
+let eggfishyPath = Path ({ x = 0.000; y = 0.000}, eggfishyBeziers) 
 
-let fishyLeftEyeBeziers = [
+let eggfishyLeftEyeBeziers = [
   createBezier (0.040, 0.772)
                (0.068, 0.696)
                (0.074, 0.685)
@@ -69,9 +69,9 @@ let fishyLeftEyeBeziers = [
                (0.004, 0.800)
 ]
 
-let leftEyePath = Path ({ x = 0.004; y = 0.800 }, fishyLeftEyeBeziers) 
+let eggleftEyePath = Path ({ x = 0.004; y = 0.800 }, eggfishyLeftEyeBeziers) 
 
-let fishyInnerLeftEyeBeziers = [
+let eggfishyInnerLeftEyeBeziers = [
   createBezier (0.038, 0.708)
                (0.053, 0.684)
                (0.057, 0.674)
@@ -85,9 +85,9 @@ let fishyInnerLeftEyeBeziers = [
                (0.018, 0.720)
 ]
 
-let innerLeftEyePath = Path ({ x = 0.018; y = 0.720}, fishyInnerLeftEyeBeziers) 
+let egginnerLeftEyePath = Path ({ x = 0.018; y = 0.720}, eggfishyInnerLeftEyeBeziers) 
 
-let fishyRightEyeBeziers = [
+let eggfishyRightEyeBeziers = [
   createBezier (0.160, 0.840)
                (0.200, 0.790)
                (0.205, 0.782)
@@ -101,9 +101,9 @@ let fishyRightEyeBeziers = [
                (0.095, 0.870)
 ]
 
-let rightEyePath = Path ({ x = 0.095; y = 0.870}, fishyRightEyeBeziers) 
+let eggrightEyePath = Path ({ x = 0.095; y = 0.870}, eggfishyRightEyeBeziers) 
 
-let fishyInnerRightEyeBeziers = [
+let eggfishyInnerRightEyeBeziers = [
   createBezier (0.150, 0.805)
                (0.174, 0.783)
                (0.185, 0.774)
@@ -117,9 +117,9 @@ let fishyInnerRightEyeBeziers = [
                (0.128, 0.810)
 ]
 
-let innerRightEyePath = Path ({ x = 0.128; y = 0.810 }, fishyInnerRightEyeBeziers) 
+let egginnerRightEyePath = Path ({ x = 0.128; y = 0.810 }, eggfishyInnerRightEyeBeziers) 
 
-let fishySpineCurves = [
+let eggfishySpineCurves = [
   (* main spine *)
   createCurve (createVector 0.840 0.070)
               (createVector 0.350 0.120)
@@ -199,12 +199,12 @@ let fishySpineCurves = [
               (createVector 0.474 0.538)    
 ]
 
-let fishyLines = fishySpineCurves |> List.map (fun c -> ("secondary", Curve c))
+let eggfishyLines = eggfishySpineCurves |> List.map (fun c -> ("secondary", Curve c))
 
-let fishShapes = 
-  ("primary", fishyPath) :: 
-  ("eye-outer", leftEyePath) :: 
-  ("eye-outer", rightEyePath) :: 
-  ("eye-inner", innerLeftEyePath) :: 
-  ("eye-inner", innerRightEyePath) :: 
-  fishyLines
+let eggfishShapes = 
+  ("primary", eggfishyPath) :: 
+  ("eye-outer", eggleftEyePath) :: 
+  ("eye-outer", eggrightEyePath) :: 
+  ("eye-inner", egginnerLeftEyePath) :: 
+  ("eye-inner", egginnerRightEyePath) :: 
+  eggfishyLines

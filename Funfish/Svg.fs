@@ -215,7 +215,7 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
     let ops = (move :: curves) @ [ close ] 
     canvas.DrawPath(ops, pen, brush) 
     // DEBUG
-    let debug = true
+    let debug = false
     if debug then 
       let drawCross x y = 
         canvas.DrawLine(p (x-2.) (y-2.), p (x+2.) (y+2.), Pens.Red)
