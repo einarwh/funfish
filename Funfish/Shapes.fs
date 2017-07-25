@@ -16,8 +16,13 @@ type BezierShape =
     controlPoint2 : Vector
     endPoint : Vector }
 
+type LineShape = 
+  { lineStart : Vector 
+    lineEnd : Vector}
+
 type Shape =
   | Polygon of PolygonShape
   | Curve of CurveShape
   | Path of Vector * BezierShape list
+  | Line of LineShape
 

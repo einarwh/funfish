@@ -1,6 +1,6 @@
 ﻿module Styling
 
-type StyleColor = Black | Grey | White
+type StyleColor = Black | Grey | White | Red
 
 type StrokeStyle = 
   { strokeWidth : float 

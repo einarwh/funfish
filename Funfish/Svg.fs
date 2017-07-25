@@ -35,6 +35,10 @@ let mapShape m = function
         controlPoint2 = m cp2 
         endPoint = m ep }
     Path (m start, beziers |> List.map mapBezier)
+  | Line { lineStart = v1 
+           lineEnd = v2 } ->
+    Line { lineStart = m v1 
+           lineEnd = m v2 }
 
 let getStrokeWidth { a = a; b = b; c = c } =
   let s = min (size b) (size c)
@@ -105,6 +109,13 @@ let getPathStyle name sw hue =
     let fill = Some { fillColor = getColor name hue }
     { stroke = stroke; fill = fill }
 
+let getLineStyle name sw hue = 
+  if name = "control-point" then 
+    let stroke = Some { strokeColor = StyleColor.Red; strokeWidth = 0.5 }
+    { stroke = stroke; fill = None }
+  else
+    getDefaultStyle name sw hue
+
 let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) = 
   let m = mapper box
   let sw = getStrokeWidth box
@@ -122,6 +133,10 @@ let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) =
   | Path (start, beziers) ->
     let style = getPathStyle name sw hue
     Path (m start, beziers |> List.map (mapBezier m)), style
+  | Line { lineStart = v1
+           lineEnd = v2 } ->
+    Line { lineStart = m v1 
+           lineEnd = m v2 }, getDefaultStyle name hue sw
                      
 let getStyle box = 
   let sw = getStrokeWidth box
@@ -145,6 +160,7 @@ let getStrokePen { strokeWidth = sw; strokeColor = sc } =
     | Black -> Colors.Black 
     | Grey -> Colors.Gray
     | White -> Colors.White
+    | Red -> Colors.Red
   Pen(color, sw)
 
 let getFillBrush { fillColor = fc } = 
@@ -152,6 +168,7 @@ let getFillBrush { fillColor = fc } =
   | Black -> Brushes.Black 
   | Grey -> Brushes.Gray
   | White -> Brushes.White
+  | Red -> Brushes.Red
   
 let renderSvg (width : float) (height : float) (filename : string) (styledShapes : (Shape * Style) list) = 
   let size = Size(width, height)
@@ -196,7 +213,25 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
       | None -> null
     let close = ClosePath() :> PathOp
     let ops = (move :: curves) @ [ close ] 
-    canvas.DrawPath(ops, pen, brush)    
+    canvas.DrawPath(ops, pen, brush) 
+    // DEBUG
+    let debug = true
+    if debug then 
+      let drawCross x y = 
+        canvas.DrawLine(p (x-2.) (y-2.), p (x+2.) (y+2.), Pens.Red)
+        canvas.DrawLine(p (x-2.) (y+2.), p (x+2.) (y-2.), Pens.Red)
+      let drawBezierPoints { controlPoint1 = { x = x1; y = y1 }
+                             controlPoint2 = { x = x2; y = y2 }
+                             endPoint = _ } =
+        drawCross x1 y1
+        drawCross x2 y2
+      beziers |> List.iter drawBezierPoints
+  | Line { lineStart = { x = x1; y = y1 }
+           lineEnd   = { x = x2; y = y2 } } ->
+    let move = MoveTo(p x1 y1) :> PathOp
+    let line = LineTo(p x2 y2) :> PathOp
+    canvas.DrawPath([move; line], getPen style)
+    
   styledShapes |> List.iter (fun (shape, style) -> drawShape style shape)
   use writer = new StreamWriter(filename)
   canvas.Graphic.WriteSvg(writer)

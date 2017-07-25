@@ -96,14 +96,14 @@ let plainLizard width height =
 
 let escherEgg width height = 
   let fish = createLensPicture fishShapes
-  let box = { a = { x = 100.; y = 100. }
-              b = { x = 3200.; y = 0. } 
+  let box = { a = { x = 0.; y = 100. }
+              b = { x = 3600.; y = 0. } 
               c = { x = 0.; y = 600. } }
 
   let depth = 3
-  let band = egg' depth 16 fish
+  let band = egg' depth 18 fish
   let lens = box, Hollow
-  lens |> band |> renderSvg width height (sprintf "escher-egg-%d.svg" depth)
+  lens |> band |> renderSvg width height (sprintf "escher-egg-%d-3600.svg" depth)
 
 
 [<EntryPoint>]
@@ -116,7 +116,7 @@ let main argv =
   whiteFish 400. 400.
   hueSquareLimit 4 400. 400.
   plainLizard 400. 400.
-  hendersonEgg 3400. 800.
-  escherEgg 3400. 800.
+  hendersonEgg 3600. 800.
+  escherEgg 3600. 800.
   0
   
