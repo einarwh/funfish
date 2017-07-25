@@ -148,8 +148,8 @@ let mapMaybeNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) op
     //  printfn "Name %s" name
     //if boxSize > 47.15 then 
     //  printfn "Box size: %f" boxSize
-    if name = "eye-inner" && boxSize < 125. then None
-    else if name = "eye-outer" && boxSize < 50. then None
+    if name = "egg-eye-inner" && boxSize < 125. then None
+    else if name = "egg-eye-outer" && boxSize < 50. then None
     else if name = "tail-fin" && boxSize < 125. then None 
     else if name = "fin-details" && boxSize < 100. then None
     else if name = "fin-stem" && boxSize < 50. then None
@@ -159,7 +159,7 @@ let mapMaybeNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) op
 let getStyle box = 
   let sw = getStrokeWidth box
   { stroke = Some { strokeWidth = sw
-                    strokeColor = StyleColor.Black } 
+                    strokeColor = StyleColor.Green } 
     fill = None }
 
 let createPicture (shapes : Shape list) : Picture = 
@@ -181,6 +181,7 @@ let getStrokePen { strokeWidth = sw; strokeColor = sc } =
     | Grey -> Colors.Gray
     | White -> Colors.White
     | Red -> Colors.Red
+    | Green -> Colors.Green
   Pen(color, sw)
 
 let getFillBrush { fillColor = fc } = 
@@ -189,6 +190,7 @@ let getFillBrush { fillColor = fc } =
   | Grey -> Brushes.Gray
   | White -> Brushes.White
   | Red -> Brushes.Red
+  | Green -> Brushes.Green
   
 let renderSvg (width : float) (height : float) (filename : string) (styledShapes : (Shape * Style) list) = 
   let size = Size(width, height)
@@ -235,7 +237,7 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
     let ops = (move :: curves) @ [ close ] 
     canvas.DrawPath(ops, pen, brush) 
     // DEBUG
-    let debug = false
+    let debug = true
     if debug then 
       let drawCross x y = 
         canvas.DrawLine(p (x-2.) (y-2.), p (x+2.) (y+2.), Pens.Red)

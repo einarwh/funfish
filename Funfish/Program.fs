@@ -84,7 +84,7 @@ let hueSquareLimit n width height =
               c = { x = 0.; y = height } }
 
   let lens = box, Greyish
-  let filename = sprintf "squarelimit-hue-%d.svg" n
+  let filename = sprintf "squarelimit-hue-%d-%d.svg" n (int width)
   lens |> squareLimit' 4 fish |> renderSvg width height filename
 
 let plainLizard width height = 
@@ -94,6 +94,17 @@ let plainLizard width height =
               c = { x = 0.; y = height / 2. } }
         
   box |> lizard |> renderSvg width height "plain-lizard.svg"
+
+let quartetLizard width height = 
+  let lizard = createPicture [ lizardPath ]
+  let box = { a = { x = width / 4.; y = height / 4. }
+              b = { x = width / 2.; y = 0. } 
+              c = { x = 0.; y = height / 2. } }
+  let q = quartet lizard 
+                  (Pictures.turn lizard)
+                  (Pictures.turn >> Pictures.turn >> Pictures.turn <| lizard)
+                  (Pictures.turn >> Pictures.turn <| lizard)
+  box |> q |> renderSvg width height "quartet-lizard.svg"
 
 let escherEgg depth width height = 
   let fish = createLensPicture fishShapes
@@ -154,7 +165,9 @@ let main argv =
   greyFish 400. 400.
   whiteFish 400. 400.
   hueSquareLimit 4 400. 400.
+  hueSquareLimit 5 2000. 2000.
   plainLizard 400. 400.
+  quartetLizard 600. 600.
   hendersonEgg 3600. 800.
   escherEgg 2 3600. 800.
   escherEgg' 2 3200. 800.

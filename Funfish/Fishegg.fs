@@ -221,10 +221,10 @@ let finDetails = namedCurves "fin-details" finDetailCurves
 
 let fisheggShapes = 
   ("primary", eggfishyPath) :: 
-  ("eye-outer", eggleftEyePath) :: 
-  ("eye-outer", eggrightEyePath) :: 
-  ("eye-inner", egginnerLeftEyePath) :: 
-  ("eye-inner", egginnerRightEyePath) :: 
+  ("egg-eye-outer", eggleftEyePath) :: 
+  ("egg-eye-outer", eggrightEyePath) :: 
+  ("egg-eye-inner", egginnerLeftEyePath) :: 
+  ("egg-eye-inner", egginnerRightEyePath) :: 
   mainSpine @ 
   tailFin @
   finStem @
