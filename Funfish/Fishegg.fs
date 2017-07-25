@@ -56,76 +56,84 @@ let eggfishyBeziers = [
 let eggfishyPath = Path ({ x = 0.000; y = 0.000}, eggfishyBeziers) 
 
 let eggfishyLeftEyeBeziers = [
-  createBezier (0.040, 0.772)
-               (0.068, 0.696)
-               (0.074, 0.685)
-
-  createBezier (0.045, 0.660)
-               (0.010, 0.617)
-               (-0.008, 0.592)
-
-  createBezier (-0.017, 0.685)
-               (-0.012, 0.770)
-               (0.004, 0.800)
+  (* right *)
+  createBezier (0.040, 0.750)
+               (0.055, 0.710)
+               (0.065, 0.675)
+  (* bottom *)
+  createBezier (0.040, 0.655)
+               (0.020, 0.630)
+               (0.000, 0.610)
+  (* left *)
+  createBezier (-0.010, 0.660)
+               (-0.008, 0.720)
+               (0.010, 0.775)
 ]
 
-let eggleftEyePath = Path ({ x = 0.004; y = 0.800 }, eggfishyLeftEyeBeziers) 
+let eggleftEyePath = Path ({ x = 0.010; y = 0.775 }, eggfishyLeftEyeBeziers) 
 
 let eggfishyInnerLeftEyeBeziers = [
-  createBezier (0.038, 0.708)
-               (0.053, 0.684)
-               (0.057, 0.674)
-
-  createBezier (0.035, 0.652)
-               (0.010, 0.622)
-               (0.008, 0.618)
-
-  createBezier (0.005, 0.685)
-               (0.010, 0.700)
-               (0.018, 0.720)
+  (* right *)
+  createBezier (0.034, 0.682)
+               (0.040, 0.670)
+               (0.044, 0.660)
+  (* bottom *)
+  createBezier (0.037, 0.650)
+               (0.030, 0.643)
+               (0.025, 0.638)
+  (* left *)
+  createBezier (0.020, 0.650)
+               (0.020, 0.675)
+               (0.025, 0.690)
 ]
 
-let egginnerLeftEyePath = Path ({ x = 0.018; y = 0.720}, eggfishyInnerLeftEyeBeziers) 
+let egginnerLeftEyePath = Path ({ x = 0.025; y = 0.690}, eggfishyInnerLeftEyeBeziers) 
 
 let eggfishyRightEyeBeziers = [
-  createBezier (0.160, 0.840)
-               (0.200, 0.790)
-               (0.205, 0.782)
-
+  (* right *)
+  createBezier (0.145, 0.845)
+               (0.175, 0.810)
+               (0.195, 0.782)
+  (* bottom *)
   createBezier (0.165, 0.760)
                (0.140, 0.740)
-               (0.115, 0.715)
-
-  createBezier (0.095, 0.775)
-               (0.090, 0.830)
-               (0.095, 0.870)
+               (0.122, 0.720)
+  (* left *)
+  createBezier (0.108, 0.760)
+               (0.100, 0.820)
+               (0.105, 0.860)
 ]
 
-let eggrightEyePath = Path ({ x = 0.095; y = 0.870}, eggfishyRightEyeBeziers) 
+let eggrightEyePath = Path ({ x = 0.105; y = 0.860}, eggfishyRightEyeBeziers) 
 
 let eggfishyInnerRightEyeBeziers = [
-  createBezier (0.150, 0.805)
-               (0.174, 0.783)
-               (0.185, 0.774)
+  (* right *)
+  createBezier (0.155, 0.780)
+               (0.162, 0.770)
+               (0.168, 0.763)
 
-  createBezier (0.154, 0.756)
-               (0.139, 0.740)
-               (0.132, 0.736)
+  (* bottom *)
+  createBezier (0.159, 0.756)
+               (0.152, 0.753)
+               (0.145, 0.750)
 
-  createBezier (0.126, 0.760)
-               (0.122, 0.795)
-               (0.128, 0.810)
+  (* left *)
+  createBezier (0.142, 0.760)
+               (0.139, 0.780)
+               (0.141, 0.787)
 ]
 
-let egginnerRightEyePath = Path ({ x = 0.128; y = 0.810 }, eggfishyInnerRightEyeBeziers) 
+let egginnerRightEyePath = Path ({ x = 0.141; y = 0.787 }, eggfishyInnerRightEyeBeziers) 
 
-let eggfishySpineCurves = [
+let mainSpineCurves = [
   (* main spine *)
   createCurve (createVector 0.840 0.070)
               (createVector 0.350 0.120)
               (createVector 0.140 0.500)
               (createVector 0.025 0.900) 
+]
 
+let finStemCurves = [
   (* left fin stem *)
   createCurve (createVector -0.015 0.520)
               (createVector 0.040 0.400)
@@ -143,7 +151,9 @@ let eggfishySpineCurves = [
               (createVector 0.410 0.410)
               (createVector 0.460 0.460)
               (createVector 0.495 0.495)
+]
 
+let tailFinCurves = [
   (* tail fin stem *)
   createCurve (createVector 0.430 0.165)
               (createVector 0.480 0.175)
@@ -161,7 +171,9 @@ let eggfishySpineCurves = [
               (createVector 0.520 0.200)
               (createVector 0.600 0.160)
               (createVector 0.740 0.150)
+]
 
+let finDetailCurves = [
   (* left fin top line *)
   createCurve (createVector -0.170 0.237) 
               (createVector -0.125 0.355) 
@@ -199,12 +211,21 @@ let eggfishySpineCurves = [
               (createVector 0.474 0.538)    
 ]
 
-let eggfishyLines = eggfishySpineCurves |> List.map (fun c -> ("secondary", Curve c))
+let namedCurves name curves = 
+  curves |> List.map (fun c -> (name, Curve c))
 
-let eggfishShapes = 
+let mainSpine = namedCurves "main-spine" mainSpineCurves
+let tailFin = namedCurves "tail-fin" tailFinCurves
+let finStem = namedCurves "fin-stem" finStemCurves
+let finDetails = namedCurves "fin-details" finDetailCurves
+
+let fisheggShapes = 
   ("primary", eggfishyPath) :: 
   ("eye-outer", eggleftEyePath) :: 
   ("eye-outer", eggrightEyePath) :: 
   ("eye-inner", egginnerLeftEyePath) :: 
   ("eye-inner", egginnerRightEyePath) :: 
-  eggfishyLines
+  mainSpine @ 
+  tailFin @
+  finStem @
+  finDetails

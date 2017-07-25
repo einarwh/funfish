@@ -53,7 +53,7 @@ let mapBezier m = function
     endPoint = m ep }
 
 let getDefaultColor name hue = 
-  if name = "secondary" then 
+  if name = "secondary" || name = "tail-fin" || name = "fin-stem" || name = "fin-details" || name = "main-spine" then 
     match hue with 
     | Blackish -> StyleColor.White
     | Greyish -> StyleColor.White
@@ -116,6 +116,8 @@ let getLineStyle name sw hue =
   else
     getDefaultStyle name sw hue
 
+
+
 let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) = 
   let m = mapper box
   let sw = getStrokeWidth box
@@ -137,6 +139,22 @@ let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) =
            lineEnd = v2 } ->
     Line { lineStart = m v1 
            lineEnd = m v2 }, getDefaultStyle name hue sw
+
+let mapMaybeNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) option = 
+  match box with 
+  | { a = _; b = b; c = c } ->
+    let boxSize = min (size b) (size c)
+    //if not (name = "secondary") && not (name = "eye-outer") && not (name = "eye-inner") && not (name = "primary") then 
+    //  printfn "Name %s" name
+    //if boxSize > 47.15 then 
+    //  printfn "Box size: %f" boxSize
+    if name = "eye-inner" && boxSize < 125. then None
+    else if name = "eye-outer" && boxSize < 50. then None
+    else if name = "tail-fin" && boxSize < 125. then None 
+    else if name = "fin-details" && boxSize < 100. then None
+    else if name = "fin-stem" && boxSize < 50. then None
+    else if name = "main-spine" && boxSize < 30. then None
+    else Some <| mapNamedShape (box, hue) (name, shape)
                      
 let getStyle box = 
   let sw = getStrokeWidth box
@@ -152,7 +170,9 @@ let createPicture (shapes : Shape list) : Picture =
 
 let createLensPicture (shapes : (string * Shape) list) : LensPicture = 
    fun lens ->
-     shapes |> List.map (mapNamedShape lens)
+     let maybeShapes = shapes |> List.map (mapMaybeNamedShape lens)
+     let shapes' = maybeShapes |> List.choose id
+     shapes'
 
 let getStrokePen { strokeWidth = sw; strokeColor = sc } = 
   let color = 

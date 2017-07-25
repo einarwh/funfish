@@ -117,7 +117,7 @@ let escherEgg' depth width height =
 
 let escherEggStretch depth width height = 
   let fish = createLensPicture fishShapes
-  let box = { a = { x = 0.; y = 000. }
+  let box = { a = { x = 0.; y = 0. }
               b = { x = 3200.; y = 0. } 
               c = { x = 0.; y = 800. } }
 
@@ -125,14 +125,25 @@ let escherEggStretch depth width height =
   let lens = box, Hollow
   lens |> band |> renderSvg width height (sprintf "escher-egg-stretch-%d-3200x800.svg" depth)
 
-let theEggfish width height = 
-  let fish = createLensPicture eggfishShapes
+let fisheggfish width height = 
+  let fish = createLensPicture fisheggShapes
   let box = { a = { x = 100.; y = 100. }
               b = { x = 400.; y = 0. } 
               c = { x = 0.; y = 400. } }
 
   let lens = box, Hollow
-  lens |> fish |> renderSvg width height (sprintf "eggfish.svg")
+  lens |> fish |> renderSvg width height (sprintf "fishegg.svg")
+
+let fishegg depth width height = 
+  let fish = createLensPicture fisheggShapes
+  let box = { a = { x = 0.; y = 0. }
+              b = { x = 3200.; y = 0. } 
+              c = { x = 0.; y = 800. } }
+
+  let band = egg' depth 10 fish
+  let lens = box, Hollow
+  lens |> band |> renderSvg width height (sprintf "fishegg-%d-3200x800.svg" depth)
+
 
 [<EntryPoint>]
 let main argv =
@@ -150,6 +161,8 @@ let main argv =
   escherEgg' 3 3200. 800.
   escherEggStretch 2 3200. 800.
   escherEggStretch 3 3200. 800.
-  theEggfish 600. 600.
+  fisheggfish 600. 600.
+  fishegg 3 3200. 800.
+  fishegg 2 3200. 800.
   0
   
