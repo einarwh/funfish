@@ -20,9 +20,14 @@ type LineShape =
   { lineStart : Vector 
     lineEnd : Vector}
 
+type CircleShape = 
+  { center : Vector 
+    radius : Vector }
+
 type Shape =
   | Polygon of PolygonShape
   | Curve of CurveShape
   | Path of Vector * BezierShape list
   | Line of LineShape
+  | Circle of CircleShape
 

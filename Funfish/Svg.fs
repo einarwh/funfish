@@ -39,7 +39,13 @@ let mapShape m = function
            lineEnd = v2 } ->
     Line { lineStart = m v1 
            lineEnd = m v2 }
-
+  | Circle { center = cv 
+             radius = rv } ->
+    let cv' = m cv
+    let rv' = m rv - cv'
+    Circle { center = cv' 
+             radius = rv' }
+  
 let getStrokeWidth { a = a; b = b; c = c } =
   let s = min (size b) (size c)
   s / 80.
@@ -72,40 +78,51 @@ let getDefaultStyle name hue sw =
       strokeColor = getDefaultColor name hue }
   { stroke = Some stroke; fill = None }
 
+let getCircleStyle name hue sw = 
+  let fill =  
+    { fillColor = getDefaultColor name hue }
+  { stroke = None; fill = Some fill }
+
+let isInnerEye name = 
+  name = "eye-inner" || name = "egg-eye-inner"
+
+let isOuterEye name = 
+  name = "eye-outer" || name = "egg-eye-outer"
+
 let getColor name = function 
   | Blackish -> 
     if name = "primary" then StyleColor.Black  
-    else if name = "eye-outer" then StyleColor.White 
-    else if name = "eye-inner" then StyleColor.Black 
+    else if isOuterEye name then StyleColor.White 
+    else if isInnerEye name then StyleColor.Black 
     else StyleColor.White 
   | Greyish -> 
     if name = "primary" then StyleColor.Grey 
-    else if name = "eye-outer" then StyleColor.White 
-    else if name = "eye-inner" then StyleColor.Grey 
+    else if isOuterEye name then StyleColor.White 
+    else if isInnerEye name then StyleColor.Grey 
     else StyleColor.White 
   | Whiteish -> 
     if name = "primary" then StyleColor.White  
-    else if name = "eye-outer" then StyleColor.White  
-    else if name = "eye-inner" then StyleColor.Black 
+    else if isOuterEye name then StyleColor.White  
+    else if isInnerEye name then StyleColor.Black 
     else StyleColor.Black
   | Hollow -> 
-    if name = "primary" then StyleColor.White  
-    else if name = "eye-outer" then StyleColor.White  
-    else if name = "eye-inner" then StyleColor.Black 
+    if name = "primary" then StyleColor.White
+    else if isOuterEye name then StyleColor.White  
+    else if isInnerEye name then StyleColor.Black 
     else StyleColor.Black
 
 let getEyeLiner sw hue =  
   { strokeColor = getColor "secondary" hue 
-    strokeWidth = sw / 1.5 }
+    strokeWidth = sw }
     
 let getPathStyle name sw hue = 
   match hue with
   | Hollow ->
     let stroke = Some <| getEyeLiner sw hue
-    let fill = if name = "eye-inner" then Some { fillColor = Black } else None
+    let fill = if isInnerEye name then Some { fillColor = Black } else None
     { stroke = stroke; fill = fill }    
   | _ -> 
-    let stroke = if name = "eye-outer" then Some <| getEyeLiner sw hue else None
+    let stroke = if isOuterEye name then Some <| getEyeLiner sw hue else None
     let fill = Some { fillColor = getColor name hue }
     { stroke = stroke; fill = fill }
 
@@ -115,8 +132,6 @@ let getLineStyle name sw hue =
     { stroke = stroke; fill = None }
   else
     getDefaultStyle name sw hue
-
-
 
 let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) = 
   let m = mapper box
@@ -134,32 +149,41 @@ let mapNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) =
             point4 = m v4 }, getDefaultStyle name hue sw
   | Path (start, beziers) ->
     let style = getPathStyle name sw hue
-    Path (m start, beziers |> List.map (mapBezier m)), style
+    let style' = 
+      if name = "egg-eye-inner" then
+        let boxSize = min (size box.b) (size box.c)
+        if boxSize < 200. then 
+          { style with stroke = Some { strokeWidth = 2. * sw; strokeColor = StyleColor.Black } }
+        else style
+      else style 
+    Path (m start, beziers |> List.map (mapBezier m)), style'
   | Line { lineStart = v1
            lineEnd = v2 } ->
     Line { lineStart = m v1 
            lineEnd = m v2 }, getDefaultStyle name hue sw
+  | Circle { center = cv
+             radius = rv } ->
+    let cv' = m cv
+    let rv' = m rv - box.a
+    Circle { center = cv' 
+             radius = rv' }, getCircleStyle name hue sw
 
 let mapMaybeNamedShape (box : Box, hue : Hue) (name, shape) : (Shape * Style) option = 
   match box with 
   | { a = _; b = b; c = c } ->
     let boxSize = min (size b) (size c)
-    //if not (name = "secondary") && not (name = "eye-outer") && not (name = "eye-inner") && not (name = "primary") then 
-    //  printfn "Name %s" name
-    //if boxSize > 47.15 then 
-    //  printfn "Box size: %f" boxSize
-    if name = "egg-eye-inner" && boxSize < 125. then None
-    else if name = "egg-eye-outer" && boxSize < 50. then None
-    else if name = "tail-fin" && boxSize < 125. then None 
+    if name = "egg-eye-inner" && boxSize < 60. then None
+    else if name = "egg-eye-outer" && boxSize < 200. then None
+    else if name = "tail-fin" && boxSize < 200. then None 
     else if name = "fin-details" && boxSize < 100. then None
-    else if name = "fin-stem" && boxSize < 50. then None
-    else if name = "main-spine" && boxSize < 30. then None
+    else if name = "fin-stem" && boxSize < 60. then None
+    else if name = "main-spine" && boxSize < 100. then None
     else Some <| mapNamedShape (box, hue) (name, shape)
                      
 let getStyle box = 
   let sw = getStrokeWidth box
   { stroke = Some { strokeWidth = sw
-                    strokeColor = StyleColor.Green } 
+                    strokeColor = StyleColor.Black } 
     fill = None }
 
 let createPicture (shapes : Shape list) : Picture = 
@@ -193,8 +217,8 @@ let getFillBrush { fillColor = fc } =
   | Green -> Brushes.Green
   
 let renderSvg (width : float) (height : float) (filename : string) (styledShapes : (Shape * Style) list) = 
-  let size = Size(width, height)
-  let canvas = GraphicCanvas(size)
+  let sz = Size(width, height)
+  let canvas = GraphicCanvas(sz)
   let p x y = Point(x, height - y) 
   let getPen style = 
     match style.stroke with 
@@ -218,6 +242,21 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
     let move  = new MoveTo(pt1) :> PathOp
     let curve = new CurveTo(pt2, pt3, pt4) :> PathOp    
     canvas.DrawPath([move; curve], getPen style)  
+    // DEBUG
+    let showControlPoints = false
+    if showControlPoints then 
+      let drawCross x y = 
+        canvas.DrawLine(p (x-2.) (y-2.), p (x+2.) (y+2.), Pens.Red)
+        canvas.DrawLine(p (x-2.) (y+2.), p (x+2.) (y-2.), Pens.Red)
+      let drawBezierPoints { controlPoint1 = { x = x1; y = y1 }
+                             controlPoint2 = { x = x2; y = y2 }
+                             endPoint = _ } =
+        drawCross x1 y1
+        drawCross x2 y2
+      drawBezierPoints { controlPoint1 = { x = x2; y = y2 } 
+                         controlPoint2 = { x = x3; y = y3 }
+                         endPoint = { x = x4; y = y4 } }
+
   | Path ({ x = x; y = y }, beziers) ->
     let move = MoveTo(p x y) :> PathOp
     let toCurve { controlPoint1 = { x = x1; y = y1 }
@@ -237,8 +276,8 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
     let ops = (move :: curves) @ [ close ] 
     canvas.DrawPath(ops, pen, brush) 
     // DEBUG
-    let debug = true
-    if debug then 
+    let showControlPoints = false
+    if showControlPoints then 
       let drawCross x y = 
         canvas.DrawLine(p (x-2.) (y-2.), p (x+2.) (y+2.), Pens.Red)
         canvas.DrawLine(p (x-2.) (y+2.), p (x+2.) (y-2.), Pens.Red)
@@ -253,6 +292,16 @@ let renderSvg (width : float) (height : float) (filename : string) (styledShapes
     let move = MoveTo(p x1 y1) :> PathOp
     let line = LineTo(p x2 y2) :> PathOp
     canvas.DrawPath([move; line], getPen style)
+  | Circle { center = { x = x1; y = y1 }
+             radius = rv } ->
+    let move = MoveTo(p x1 y1) :> PathOp
+    let r = size rv
+    let d = 2. * r
+    let brush = 
+      match style.fill with 
+      | Some fill -> getFillBrush fill
+      | None -> Brushes.Yellow
+    canvas.DrawEllipse(p (x1 - r) (y1 + r), new Size(d, d), null, brush)
     
   styledShapes |> List.iter (fun (shape, style) -> drawShape style shape)
   use writer = new StreamWriter(filename)

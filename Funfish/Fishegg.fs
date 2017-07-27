@@ -82,8 +82,8 @@ let eggfishyInnerLeftEyeBeziers = [
                (0.030, 0.643)
                (0.025, 0.638)
   (* left *)
-  createBezier (0.020, 0.650)
-               (0.020, 0.675)
+  createBezier (0.021, 0.650)
+               (0.021, 0.675)
                (0.025, 0.690)
 ]
 
@@ -113,13 +113,13 @@ let eggfishyInnerRightEyeBeziers = [
                (0.168, 0.763)
 
   (* bottom *)
-  createBezier (0.159, 0.756)
-               (0.152, 0.753)
-               (0.145, 0.750)
+  createBezier (0.159, 0.758)
+               (0.149, 0.750)
+               (0.145, 0.747)
 
   (* left *)
   createBezier (0.142, 0.760)
-               (0.139, 0.780)
+               (0.140, 0.776)
                (0.141, 0.787)
 ]
 

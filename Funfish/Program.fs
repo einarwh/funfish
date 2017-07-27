@@ -11,6 +11,7 @@ open Fishier
 open Fishegg
 open Lizard
 open Lenses
+open Shades
 open Limited
 open Unlimited
 open Svg
@@ -87,24 +88,35 @@ let hueSquareLimit n width height =
   let filename = sprintf "squarelimit-hue-%d-%d.svg" n (int width)
   lens |> squareLimit' 4 fish |> renderSvg width height filename
 
-let plainLizard width height = 
-  let lizard = createPicture [ lizardPath ]
+let singleLizard width height = 
+  let lizard = createLensPicture lizardShapes
   let box = { a = { x = width / 4.; y = height / 4. }
               b = { x = width / 2.; y = 0. } 
               c = { x = 0.; y = height / 2. } }
-        
-  box |> lizard |> renderSvg width height "plain-lizard.svg"
+  let lens = box, Greyish
+  lens |> lizard |> renderSvg width height "single-lizard.svg"
+
+let rec qquartet (n : int) (p : LensPicture) =
+  let p' = if n = 1 then p else qquartet (n - 1) p
+  quartet' p' p' p' p'
 
 let quartetLizard width height = 
-  let lizard = createPicture [ lizardPath ]
+  let lizard1 = createLensPicture lizardShapes
+  let lizard2 = lizard1 |> Shades.rehue
   let box = { a = { x = width / 4.; y = height / 4. }
               b = { x = width / 2.; y = 0. } 
               c = { x = 0.; y = height / 2. } }
-  let q = quartet lizard 
-                  (Pictures.turn lizard)
-                  (Pictures.turn >> Pictures.turn >> Pictures.turn <| lizard)
-                  (Pictures.turn >> Pictures.turn <| lizard)
-  box |> q |> renderSvg width height "quartet-lizard.svg"
+  let lens = box, Blackish
+  let lizardNW = lizard1
+  let lizardNE = lizard2 |> Shades.turn
+  let lizardSW = lizard2 |> Shades.turn |> Shades.turn |> Shades.turn
+  let lizardSE = lizard1 |> Shades.turn |> Shades.turn
+  let q = quartet' lizardNW 
+                   lizardNE
+                   lizardSW
+                   lizardSE
+  let qq = qquartet 3 q
+  lens |> qq |> renderSvg width height "quartet-lizards.svg"
 
 let escherEgg depth width height = 
   let fish = createLensPicture fishShapes
@@ -148,12 +160,12 @@ let fisheggfish width height =
 let fishegg depth width height = 
   let fish = createLensPicture fisheggShapes
   let box = { a = { x = 0.; y = 0. }
-              b = { x = 3200.; y = 0. } 
-              c = { x = 0.; y = 800. } }
+              b = { x = width; y = 0. } 
+              c = { x = 0.; y = height } }
 
   let band = egg' depth 10 fish
   let lens = box, Hollow
-  lens |> band |> renderSvg width height (sprintf "fishegg-%d-3200x800.svg" depth)
+  lens |> band |> renderSvg width height (sprintf "eggscher-%d-%dx%d.svg" depth (int width) (int height))
 
 
 [<EntryPoint>]
@@ -166,16 +178,13 @@ let main argv =
   whiteFish 400. 400.
   hueSquareLimit 4 400. 400.
   hueSquareLimit 5 2000. 2000.
-  plainLizard 400. 400.
-  quartetLizard 600. 600.
+  singleLizard 400. 400.
+  quartetLizard 800. 800.
   hendersonEgg 3600. 800.
-  escherEgg 2 3600. 800.
-  escherEgg' 2 3200. 800.
-  escherEgg' 3 3200. 800.
-  escherEggStretch 2 3200. 800.
-  escherEggStretch 3 3200. 800.
   fisheggfish 600. 600.
-  fishegg 3 3200. 800.
-  fishegg 2 3200. 800.
+  fishegg 3 3200. 920.
+  fishegg 2 3200. 920.
+  fishegg 3 3200. 1000.
+  fishegg 2 3200. 1000.
   0
   

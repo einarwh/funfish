@@ -14,6 +14,10 @@ let createBezier (x1, y1) (x2, y2) (x3, y3) =
     controlPoint2 = { x = x2; y = y2 } 
     endPoint =      { x = x3; y = y3 } }
 
+let createCircle (x, y) r = 
+  { center = { x = x; y = y }
+    radius = { x = r; y = 0. } }
+
 let lizardBeziers = [
   createBezier (0.020,  0.050)
                (0.030,  0.120)
@@ -90,3 +94,38 @@ let lizardBeziers = [
 ]
 
 let lizardPath = Path ({ x = 0.000; y = 0.000}, lizardBeziers) 
+
+let lizardEyeOuterCircles = [
+  createCircle (0.260, 1.100) 0.070
+  createCircle (0.260, 0.900) 0.070
+]
+
+let lizardEyeInnerCircles = [
+  createCircle (0.260, 1.100) 0.050
+  createCircle (0.260, 0.900) 0.050
+]
+
+let mainSpineCurves = [
+  (* main spine *)
+  createCurve (createVector 0.350 -0.200)
+              (createVector 0.700 0.900)
+              (createVector 0.650 1.000)
+              (createVector 0.075 1.000) 
+]
+
+let namedCurves name curves = 
+  curves |> List.map (fun c -> (name, Curve c))
+
+let namedCircles name circles = 
+  circles |> List.map (fun c -> (name, Circle c))
+
+let mainSpine = namedCurves "secondary" mainSpineCurves
+let lizardEyesOuter = namedCircles "secondary" lizardEyeOuterCircles
+let lizardEyesInner = namedCircles "primary" lizardEyeInnerCircles
+
+let lizardShapes = 
+  ("primary", lizardPath) :: 
+  mainSpine @
+  lizardEyesOuter @
+  lizardEyesInner
+
