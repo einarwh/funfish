@@ -3,5 +3,6 @@ nuget FAKE
 nuget FSharp.Core
 nuget NGraphics
 nuget FsCheck
-nuget Expecto
-nuget Expecto.FsCheck
+nuget Expecto ~> 4.2.1
+nuget Expecto.FsCheck ~> 4.2.1
+nuget Microsoft.NETCore.UniversalWindowsPlatform ~> 5.2.2
